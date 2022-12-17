@@ -1,11 +1,17 @@
 import { App } from 'vue';
 import * as string from '@/utils/string';
 
+declare module '@vue/runtime-core' {
+  export interface ComponentCustomProperties {
+    $utils: typeof utils;
+  }
+}
+
 const utils = {
   string,
 };
 
-export const createUtils = (): { install: (app: App) => void } => {
+const createUtils = (): { install: (app: App) => void } => {
   const install = (app: App) => {
     app.config.globalProperties.$utils = utils;
   };
@@ -13,8 +19,4 @@ export const createUtils = (): { install: (app: App) => void } => {
   return { install };
 };
 
-declare module '@vue/runtime-core' {
-  export interface ComponentCustomProperties {
-    $utils: typeof utils;
-  }
-}
+export default createUtils();
