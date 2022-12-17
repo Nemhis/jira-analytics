@@ -1,0 +1,1 @@
+Directory for css animation files (@keyframes)

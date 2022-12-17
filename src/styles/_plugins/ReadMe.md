@@ -1,0 +1,1 @@
+Directory for register styles of used plugins 
