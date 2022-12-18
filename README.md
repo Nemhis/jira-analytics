@@ -1,4 +1,4 @@
-# jira-analytics-vue
+# Jira-Analytics-Vue
 
 ## Project setup
 ```
