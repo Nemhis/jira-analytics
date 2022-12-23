@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import App from '@/components/App/App.vue';
+import App from '@/components/App.vue';
 import './registerServiceWorker';
 import { registerPlugins } from '@/plugins';
 

@@ -1,7 +1,8 @@
-// @Watch('$route', { immediate: true }) routeChanged({ meta }: RouteLocation): void {
-//   document.title = meta.title ? String(meta.title) : DEFAULT_APP_TITLE;
-// }
+<template>
+  <router-view />
+</template>
 
+<script lang="ts">
 import { defineComponent } from 'vue';
 import { RouteLocation } from 'vue-router';
 import { DEFAULT_APP_TITLE } from '@/const';
@@ -17,3 +18,7 @@ export default defineComponent({
     },
   },
 });
+</script>
+<style lang="scss">
+@import '@/styles/index';
+</style>

@@ -1,5 +1,6 @@
 import { App } from 'vue';
 import * as string from '@/utils/string';
+import * as url from '@/utils/url';
 
 declare module '@vue/runtime-core' {
   export interface ComponentCustomProperties {
@@ -9,6 +10,7 @@ declare module '@vue/runtime-core' {
 
 const utils = {
   string,
+  url,
 };
 
 const createUtils = (): { install: (app: App) => void } => {

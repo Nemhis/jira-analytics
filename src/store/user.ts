@@ -1,20 +1,14 @@
 import { defineStore } from 'pinia';
-import User from '@/adapters/User';
+import { AxiosResponse } from 'axios';
 
 export const useUserStore = defineStore('user', {
-  state: () => {
-    return {
-      user: null as User | null,
-    };
-  },
+  state: () => ({}),
   getters: {},
   actions: {
-    loadUser(): Promise<User> {
-      return this.$api.user.login({ email: '', password: '' }).then(({ data }) => {
-        this.user = User.fromRaw(data);
-
-        return this.user;
-      });
+    getAccessToken(tmpAccessCode: string): Promise<string> {
+      return this.$api.auth
+        .getAccessToken(tmpAccessCode)
+        .then(({ data }: AxiosResponse) => String(data['access_token']));
     },
   },
 });

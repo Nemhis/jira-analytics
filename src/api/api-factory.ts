@@ -1,17 +1,47 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { API_URL } from '@/config';
+import { ATLASSIAN_API_URL, AUTH_API_URL, JIRA_API_URL } from '@/config';
 import errorInterceptors from '@/api/error-interceptors';
 
 const TIMEOUT = 10000;
 
-export default function createApiInstance(): AxiosInstance {
+export const createProxy = (): AxiosInstance => {
   const api = axios.create({
-    baseURL: API_URL,
+    baseURL: AUTH_API_URL,
     timeout: TIMEOUT,
-    withCredentials: true,
+    withCredentials: false,
   });
 
   api.interceptors.response.use((response: AxiosResponse) => response, errorInterceptors);
 
   return api;
-}
+};
+
+export const createJira = (): AxiosInstance => {
+  const token = localStorage.getItem('token') || null;
+
+  const api = axios.create({
+    baseURL: JIRA_API_URL,
+    timeout: TIMEOUT,
+    withCredentials: true,
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  });
+
+  api.interceptors.response.use((response: AxiosResponse) => response, errorInterceptors);
+
+  return api;
+};
+
+export const createAtlassian = (): AxiosInstance => {
+  const token = localStorage.getItem('token') || null;
+
+  const api = axios.create({
+    baseURL: ATLASSIAN_API_URL,
+    timeout: TIMEOUT,
+    withCredentials: true,
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  });
+
+  api.interceptors.response.use((response: AxiosResponse) => response, errorInterceptors);
+
+  return api;
+};

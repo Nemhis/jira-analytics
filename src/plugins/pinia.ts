@@ -1,5 +1,5 @@
 import { createPinia } from 'pinia';
-import createApiInstance from '@/api/api-factory';
+import { createJira, createProxy, createAtlassian } from '@/api/api-factory';
 import Api from '@/api';
 
 declare module 'pinia' {
@@ -11,7 +11,11 @@ declare module 'pinia' {
 const pinia = createPinia();
 
 pinia.use(() => ({
-  $api: new Api(createApiInstance()),
+  $api: new Api({
+    proxy: createProxy(),
+    jira: createJira(),
+    atlassian: createAtlassian(),
+  }),
 }));
 
 export default pinia;

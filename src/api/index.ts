@@ -1,12 +1,24 @@
 import { AxiosInstance } from 'axios';
-import UserApi from '@/api/modules/UserApi';
+import AuthApi from '@/api/modules/AuthApi';
+import JiraApi from '@/api/modules/JiraApi';
+import AtlassianApi from '@/api/modules/AtlassianApi';
+
+export interface ApiModules {
+  proxy: AxiosInstance;
+  jira: AxiosInstance;
+  atlassian: AxiosInstance;
+}
 
 export default class Api {
-  private readonly apiInstance: AxiosInstance;
-  public user: UserApi;
+  private readonly instances: ApiModules;
+  public auth: AuthApi;
+  public jira: JiraApi;
+  public atlassian: AtlassianApi;
 
-  constructor(api: AxiosInstance) {
-    this.apiInstance = api;
-    this.user = new UserApi(this.apiInstance);
+  constructor(instances: ApiModules) {
+    this.instances = instances;
+    this.auth = new AuthApi(this.instances.proxy);
+    this.jira = new JiraApi(this.instances.jira);
+    this.atlassian = new AtlassianApi(this.instances.atlassian);
   }
 }
