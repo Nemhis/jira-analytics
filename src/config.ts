@@ -6,3 +6,4 @@ export const ATLASSIAN_AUDIENCE = process.env.VUE_APP_ATLASSIAN_AUDIENCE;
 export const ATLASSIAN_CLIENT_ID = process.env.VUE_APP_ATLASSIAN_CLIENT_ID;
 export const ATLASSIAN_SCOPE = process.env.VUE_APP_ATLASSIAN_SCOPE;
 export const ATLASSIAN_REDIRECT_URI = process.env.VUE_APP_ATLASSIAN_REDIRECT_URI;
+export const VUE_APP_DOMAIN = process.env.VUE_APP_DOMAIN;
