@@ -25,11 +25,11 @@
 import { Ref, ref, defineProps, onMounted } from 'vue';
 import { useUserStore } from '@/store/user';
 import { Raw } from '@/@types/Raw';
-import { LocationQuery } from 'vue-router';
+import { LocationQuery, useRouter } from 'vue-router';
 import { AxiosError } from 'axios';
 import { useAtlassianStore } from '@/store/atlassian';
 import AccessibleResource from '@/adapters/AccessibleResource';
-import { VUE_APP_DOMAIN } from '@/config';
+import { Routes } from '@/router/routes';
 
 const props = defineProps<{ query: LocationQuery }>();
 
@@ -39,6 +39,8 @@ const atlassianStore = useAtlassianStore();
 const isLoading: Ref<boolean> = ref(false);
 const token: Ref<string> = ref('');
 const resources: Ref<AccessibleResource[]> = ref([]);
+const router = useRouter();
+
 onMounted(() => {
   const localToken = localStorage.getItem('token') || null;
 
@@ -47,7 +49,7 @@ onMounted(() => {
     getAccessibleResource();
   }
   if (!localToken) {
-    window.location.href = VUE_APP_DOMAIN + '/login';
+    router.push(Routes.LOGIN);
   }
 
   if (!props.query.code || localToken) {
@@ -78,7 +80,7 @@ const getAccessibleResource = (): void => {
 };
 
 const setSelectResource = (resourceId: string): string => {
-  return (atlassianStore.$state.resource = resourceId);
+  return (atlassianStore.$state.resourceId = resourceId);
 };
 </script>
 

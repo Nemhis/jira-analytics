@@ -19,8 +19,8 @@
         </template>
 
         <v-list class="userDropDown">
-          <v-list-item v-for="(item, index) in items" :key="index">
-            <v-list-item-title @click="itemName(item.title)">{{ item.title }}</v-list-item-title>
+          <v-list-item>
+            <v-list-item-title @click="logOut">Log out</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -35,21 +35,17 @@ import User from '@/adapters/User';
 
 const userStore = useUserStore();
 const user: Ref<User | null> = ref(null);
-const items = ref([{ title: 'Log out' }]);
 const token: Ref<string | null> = ref(localStorage.getItem('token'));
 const getUser = (): void => {
   userStore.getUser().then((loadedUser: User | null) => {
     user.value = loadedUser;
   });
 };
-const itemName = (itemName: string): void => {
-  switch (itemName) {
-    case 'Log out':
-      localStorage.removeItem('token');
-      window.location.reload();
-      console.log(1);
-  }
+const logOut = (): void => {
+  localStorage.removeItem('token');
+  window.location.reload();
 };
+
 onBeforeMount(() => {
   getUser();
 });

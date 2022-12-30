@@ -22,11 +22,11 @@ import { useJiraStore } from '@/store/jira';
 import { useAtlassianStore } from '@/store/atlassian';
 
 import { Raw } from '@/@types/Raw';
-import { LocationQuery, useRoute } from 'vue-router';
+import { LocationQuery, useRoute, useRouter } from 'vue-router';
 import { AxiosError } from 'axios';
 import AccessibleResource from '@/adapters/AccessibleResource';
 import Issue from '@/adapters/Issue';
-import { VUE_APP_DOMAIN } from '@/config';
+import { Routes } from '@/router/routes';
 
 const props = defineProps<{ query: LocationQuery }>();
 
@@ -40,7 +40,7 @@ const resources: Ref<AccessibleResource[]> = ref([]);
 const issues: Ref<Issue[]> = ref([]);
 const route = useRoute();
 const isSelectedResource = ref(false);
-
+const router = useRouter();
 atlassianStore.$state.resourceId = String(route.params.resourceId);
 
 if (route.fullPath === '/dashboard' || route.fullPath === '/dashboard/') {
@@ -49,7 +49,7 @@ if (route.fullPath === '/dashboard' || route.fullPath === '/dashboard/') {
 onMounted(() => {
   const localToken = localStorage.getItem('token') || null;
   if (!localToken) {
-    window.location.href = VUE_APP_DOMAIN + '/login';
+    router.push(Routes.LOGIN);
   }
 
   if (localToken) {

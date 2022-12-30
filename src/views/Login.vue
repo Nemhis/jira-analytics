@@ -11,22 +11,23 @@
 import { Ref, ref, defineProps, onMounted } from 'vue';
 import { useUserStore } from '@/store/user';
 import { Raw } from '@/@types/Raw';
-import { LocationQuery } from 'vue-router';
+import { LocationQuery, useRouter } from 'vue-router';
 import { AxiosError } from 'axios';
-import { VUE_APP_DOMAIN } from '@/config';
+import { Routes } from '@/router/routes';
 const props = defineProps<{ query: LocationQuery }>();
 
 const error: Ref<Raw | null> = ref(null);
 const userStore = useUserStore();
 const isLoading: Ref<boolean> = ref(false);
 const token: Ref<string> = ref('');
+const router = useRouter();
 
 onMounted(() => {
   const localToken = localStorage.getItem('token') || null;
 
   if (localToken) {
     token.value = localToken;
-    window.location.href = VUE_APP_DOMAIN + '/resources';
+    router.push(Routes.RESOURCES);
   }
 
   if (!props.query.code || localToken) {

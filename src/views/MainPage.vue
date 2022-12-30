@@ -1,10 +1,12 @@
 <script lang="ts" setup>
-import { VUE_APP_DOMAIN } from '@/config';
+import { useRouter } from 'vue-router';
+import { Routes } from '@/router/routes';
 const accessToken = localStorage.getItem('token');
+const router = useRouter();
 if (accessToken) {
-  window.location.href = VUE_APP_DOMAIN + '/dashboard/';
+  router.push(Routes.DASHBOARD);
 } else {
-  window.location.href = VUE_APP_DOMAIN + '/login/';
+  router.push(Routes.LOGIN);
 }
 </script>
 
