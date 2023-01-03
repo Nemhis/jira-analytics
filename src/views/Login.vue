@@ -1,9 +1,8 @@
 <template>
   <div class="login">
-    Красивая картинка с заглушкой
-    <!--    <v-btn :href="$utils.url.buildAuthUrl().toString()"> Login via Atlassian</v-btn>-->
-    <!--    <p v-if="error"><b>ошибка:</b> {{ error || '-' }}</p>-->
-    <!--    <v-progress-circular v-if="isLoading" />-->
+    <v-btn :href="$utils.url.buildAuthUrl().toString()"> Login via Atlassian</v-btn>
+    <p v-if="error"><b>ошибка:</b> {{ error || '-' }}</p>
+    <v-progress-circular v-if="isLoading" />
   </div>
 </template>
 
