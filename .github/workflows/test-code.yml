@@ -2,6 +2,7 @@ name: Test code
 
 on:
   pull_request:
+  push:
 
 env:
   NODE_VERSION: 16
