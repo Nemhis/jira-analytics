@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar :elevation="8" title="">
+  <v-toolbar :elevation="8">
     <v-btn to="/">Jira Analytics</v-btn>
     <v-btn to="/resources">Resources</v-btn>
     <v-btn to="/dashboard">Dashboard</v-btn>
@@ -17,7 +17,6 @@
             <v-btn :href="$utils.url.buildAuthUrl().toString()">Login via Atlassian</v-btn>
           </div>
         </template>
-
         <v-list class="userDropDown">
           <v-list-item>
             <v-list-item-title @click="logOut">Log out</v-list-item-title>
@@ -27,12 +26,10 @@
     </div>
   </v-toolbar>
 </template>
-
 <script lang="ts" setup>
 import { onBeforeMount, Ref, ref } from 'vue';
 import { useUserStore } from '@/store/user';
 import User from '@/adapters/User';
-
 const userStore = useUserStore();
 const user: Ref<User | null> = ref(null);
 const token: Ref<string | null> = ref(localStorage.getItem('token'));
@@ -47,7 +44,9 @@ const logOut = (): void => {
 };
 
 onBeforeMount(() => {
-  getUser();
+  if (token.value) {
+    getUser();
+  }
 });
 </script>
 

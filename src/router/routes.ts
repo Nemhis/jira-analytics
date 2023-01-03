@@ -4,7 +4,7 @@ export const Routes = {
     name: 'Jira Analytics',
   },
   LOGIN: {
-    path: '/login',
+    path: '/login/',
     name: 'login',
   },
   RESOURCES: {

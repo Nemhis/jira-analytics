@@ -29,7 +29,6 @@ import Issue from '@/adapters/Issue';
 import { Routes } from '@/router/routes';
 
 const props = defineProps<{ query: LocationQuery }>();
-
 const error: Ref<Raw | null> = ref(null);
 const userStore = useUserStore();
 const jiraStore = useJiraStore();
@@ -41,6 +40,7 @@ const issues: Ref<Issue[]> = ref([]);
 const route = useRoute();
 const isSelectedResource = ref(false);
 const router = useRouter();
+
 atlassianStore.$state.resourceId = String(route.params.resourceId);
 
 if (route.fullPath === '/dashboard' || route.fullPath === '/dashboard/') {

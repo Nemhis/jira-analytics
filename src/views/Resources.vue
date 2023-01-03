@@ -86,7 +86,7 @@ const setSelectResource = (resourceId: string): string => {
 
 <style scoped>
 .center {
-  top: 200px;
+  margin-top: 20%;
   left: 40%;
 }
 </style>
