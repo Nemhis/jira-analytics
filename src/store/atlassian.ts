@@ -5,9 +5,7 @@ import { Raw } from '@/@types/Raw';
 
 export const useAtlassianStore = defineStore('atlassian', {
   state: () => {
-    return {
-      resourceId: <string>'',
-    };
+    return {};
   },
   getters: {},
   actions: {

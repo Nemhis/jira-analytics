@@ -1,18 +1,14 @@
 export const Routes = {
-  MAIN: {
-    path: '/',
-    name: 'Jira Analytics',
-  },
   LOGIN: {
-    path: '/login/',
+    path: '/login',
     name: 'login',
   },
   RESOURCES: {
-    path: '/resources/',
+    path: '/resources',
     name: 'resources',
   },
   DASHBOARD: {
-    path: '/dashboard/:resourceId?',
+    path: '/dashboard/:resourceId',
     name: 'dashboard',
   },
 };

@@ -12,34 +12,28 @@ import { useUserStore } from '@/store/user';
 import { Raw } from '@/@types/Raw';
 import { LocationQuery, useRouter } from 'vue-router';
 import { AxiosError } from 'axios';
+import TokenStorage from '@/api/modules/TokenStorage';
 import { Routes } from '@/router/routes';
-const props = defineProps<{ query: LocationQuery }>();
 
+const props = defineProps<{ query: LocationQuery }>();
 const error: Ref<Raw | null> = ref(null);
 const userStore = useUserStore();
 const isLoading: Ref<boolean> = ref(false);
-const token: Ref<string> = ref('');
+const localToken = TokenStorage.get();
 const router = useRouter();
 
 onMounted(() => {
-  const localToken = localStorage.getItem('token') || null;
-
   if (localToken) {
-    token.value = localToken;
     router.push(Routes.RESOURCES);
   }
-
   if (!props.query.code || localToken) {
     return;
   }
-
   isLoading.value = true;
+
   userStore
     .getAccessToken(String(props.query.code))
-    .then((accessToken: string) => {
-      token.value = accessToken;
-      localStorage.setItem('token', accessToken);
-
+    .then(() => {
       window.location.reload();
     })
     .catch(({ response }: AxiosError) => {

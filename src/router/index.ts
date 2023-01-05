@@ -3,15 +3,6 @@ import { Routes } from '@/router/routes';
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: Routes.MAIN.path,
-    name: Routes.MAIN.name,
-    component: () => import('../views/MainPage.vue'),
-    props: (route: RouteLocation) => ({ query: route.query }),
-    meta: {
-      title: 'Jira Analytics',
-    },
-  },
-  {
     path: Routes.LOGIN.path,
     name: Routes.LOGIN.name,
     component: () => import('../views/Login.vue'),
@@ -37,6 +28,11 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: 'Dashboard',
     },
+  },
+  {
+    path: '/',
+    name: 'Jira analytics',
+    redirect: Routes.RESOURCES,
   },
 ];
 
