@@ -4,25 +4,17 @@
 </template>
 
 <script lang="ts" setup>
-import { onBeforeMount, ref, Ref } from 'vue';
+import { onMounted } from 'vue';
 import AppHeader from '@/components/AppHeader.vue';
 import { useUserStore } from '@/store/user';
+import TokenStorage from '@/TokenStorage';
 
-const token: Ref<string> = ref('');
 const userStore = useUserStore();
-const localToken = localStorage.getItem('token') || null;
+const hasToken = TokenStorage.hasToken();
 
-const getUser = (): void => {
-  userStore.getUser().then();
-};
-
-if (localToken) {
-  token.value = localToken;
-}
-
-onBeforeMount(() => {
-  if (token.value) {
-    getUser();
+onMounted(() => {
+  if (hasToken) {
+    userStore.getUser().then();
   }
 });
 </script>

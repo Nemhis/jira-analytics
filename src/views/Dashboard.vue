@@ -11,25 +11,20 @@
 </template>
 
 <script lang="ts" setup>
-import { Ref, ref, onBeforeMount } from 'vue';
+import { Ref, ref, defineProps, onMounted } from 'vue';
 import { useJiraStore } from '@/store/jira';
-import { useRoute } from 'vue-router';
 import Issue from '@/adapters/Issue';
 
 const jiraStore = useJiraStore();
-const route = useRoute();
-const resourcesId = ref(String(route.params.resourceId));
 const issues: Ref<Issue[]> = ref([]);
+const props = defineProps<{
+  resourceId: string;
+}>();
 
-const loadIssues = (): void => {
-  jiraStore.search(resourcesId.value).then((loadedIssues: Issue[]) => {
+console.log();
+onMounted(() => {
+  jiraStore.search(props.resourceId).then((loadedIssues: Issue[]) => {
     issues.value = loadedIssues;
   });
-};
-
-onBeforeMount(() => {
-  loadIssues();
 });
 </script>
-
-<style lang="scss"></style>

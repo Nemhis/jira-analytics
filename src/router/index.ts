@@ -24,14 +24,13 @@ const routes: Array<RouteRecordRaw> = [
     path: Routes.DASHBOARD.path,
     name: Routes.DASHBOARD.name,
     component: () => import('../views/Dashboard.vue'),
-    props: (route: RouteLocation) => ({ query: route.query }),
+    props: true,
     meta: {
       title: 'Dashboard',
     },
   },
   {
     path: '/',
-    name: 'Jira analytics',
     redirect: Routes.RESOURCES,
   },
 ];

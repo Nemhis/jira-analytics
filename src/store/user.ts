@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { AxiosResponse } from 'axios';
 import User from '@/adapters/User';
-import TokenStorage from '@/api/modules/TokenStorage';
+import TokenStorage from '@/TokenStorage';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -10,9 +10,10 @@ export const useUserStore = defineStore('user', {
   getters: {},
   actions: {
     getAccessToken(tmpAccessCode: string): Promise<void> {
-      return this.$api.auth
-        .getAccessToken(tmpAccessCode)
-        .then(({ data }: AxiosResponse) => TokenStorage.set(String(data['access_token'])));
+      return this.$api.auth.getAccessToken(tmpAccessCode).then(({ data }: AxiosResponse) => {
+        TokenStorage.set(String(data['access_token']));
+        this.$api.atlassian.setDefaultToken(TokenStorage.get());
+      });
     },
     getUser(): Promise<User | null> {
       return this.$state.user
@@ -21,6 +22,10 @@ export const useUserStore = defineStore('user', {
             this.$state.user = data ? User.fromRaw(data) : null;
             return this.$state.user;
           });
+    },
+    logout(): void {
+      TokenStorage.remove();
+      this.$state.user = null;
     },
   },
 });

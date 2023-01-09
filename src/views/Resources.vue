@@ -1,5 +1,11 @@
 <template>
-  <v-card v-if="resources.length" :disabled="resources.length === 0" class="resources" max-width="300">
+  <v-card
+    v-if="resources.length"
+    :disabled="resources.length === 0"
+    max-width="300"
+    location="center"
+    class="resources"
+  >
     <v-list density="compact">
       <v-list-subheader>Resources</v-list-subheader>
       <v-list-item
@@ -27,20 +33,21 @@ import { Routes } from '@/router/routes';
 
 const atlassianStore = useAtlassianStore();
 const resources: Ref<AccessibleResource[]> = ref([]);
-const getAccessibleResource = (): void => {
+
+onMounted(() => {
   atlassianStore.getAccessibleResources().then((accessibleResources: AccessibleResource[]) => {
     resources.value = accessibleResources;
   });
-};
-
-onMounted(() => {
-  getAccessibleResource();
 });
 </script>
 
 <style lang="scss">
 .resources {
-  margin-top: 20%;
-  left: 40%;
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-width: 10vw;
 }
 </style>
