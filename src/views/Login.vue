@@ -1,10 +1,10 @@
 <template>
   <div class="login">
     <v-btn :href="$utils.url.buildAuthUrl().toString()" variant="plain" class="login__btn">
-      <div class="login__btn__items">
-        <img src="../../public/img/icons/atlassianLogo.png" alt="Atlassian icon" v-if="!isLoading" />
+      <div class="login__btn-items">
+        <img src="../../public/img/icons/atlassian-logo.png" alt="Atlassian icon" v-if="!isLoading" />
         <v-progress-circular v-if="isLoading" />
-        <span class="login__btn__items__title">Login via atlassian</span>
+        <span class="login__btn-title">Login via atlassian</span>
       </div>
     </v-btn>
     <p v-if="error"><b>ошибка:</b> {{ error || '-' }}</p>
@@ -24,14 +24,11 @@ const props = defineProps<{ query: LocationQuery }>();
 const error: Ref<Raw | null> = ref(null);
 const userStore = useUserStore();
 const isLoading: Ref<boolean> = ref(false);
-const hasToken = ref(TokenStorage.hasToken());
+const hasToken = TokenStorage.hasToken();
 const router = useRouter();
 
 onMounted(() => {
-  if (hasToken.value) {
-    router.push(Routes.RESOURCES);
-  }
-  if (!props.query.code || hasToken.value) {
+  if (!props.query.code || hasToken) {
     return;
   }
   isLoading.value = true;
@@ -46,9 +43,6 @@ onMounted(() => {
     })
     .finally(() => (isLoading.value = false));
 });
-if (hasToken.value) {
-  userStore.getUser();
-}
 </script>
 
 <style lang="scss">
@@ -66,7 +60,7 @@ if (hasToken.value) {
   color: transparent;
 }
 
-.login__btn__items {
+.login__btn-items {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -75,7 +69,7 @@ if (hasToken.value) {
   height: 10vh;
 }
 
-.login__btn__items__title {
+.login__btn-title {
   color: $black;
 }
 </style>

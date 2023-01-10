@@ -1,5 +1,5 @@
 <template>
-  <v-card v-if="issues.length" :disabled="issues.length === 0" class="mx-auto" max-width="300">
+  <v-card v-if="issues.length" :disabled="issues.length === 0" class="issues">
     <v-list density="compact">
       <v-list-subheader>Issues</v-list-subheader>
       <v-list-item v-for="issue in issues" :key="issue.id" :value="issue.id">
@@ -21,10 +21,17 @@ const props = defineProps<{
   resourceId: string;
 }>();
 
-console.log();
 onMounted(() => {
   jiraStore.search(props.resourceId).then((loadedIssues: Issue[]) => {
     issues.value = loadedIssues;
   });
 });
 </script>
+
+<style lang="scss">
+.issues {
+  width: 50vw;
+  min-width: 300px;
+  margin: 0 auto;
+}
+</style>

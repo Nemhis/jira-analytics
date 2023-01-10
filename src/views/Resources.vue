@@ -1,12 +1,6 @@
 <template>
-  <v-card
-    v-if="resources.length"
-    :disabled="resources.length === 0"
-    max-width="300"
-    location="center"
-    class="resources"
-  >
-    <v-list density="compact">
+  <v-card v-if="resources.length" :disabled="resources.length === 0" max-width="300" class="resources">
+    <v-list class="resources__item">
       <v-list-subheader>Resources</v-list-subheader>
       <v-list-item
         v-for="resource in resources"
@@ -44,10 +38,16 @@ onMounted(() => {
 <style lang="scss">
 .resources {
   display: flex;
-  position: absolute;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  min-width: 10vw;
+  margin: 0 auto;
+  width: 20vw;
+  min-width: 300px;
+  top: 40vh;
+}
+
+.resources__item {
+  width: 100%;
 }
 </style>

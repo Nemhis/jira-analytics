@@ -3,18 +3,18 @@
     <v-toolbar-title class="header__title">Jira Analytics</v-toolbar-title>
     <v-btn :to="Routes.RESOURCES">Resources</v-btn>
     <v-spacer />
-    <div class="text-center">
-      <v-menu open-on-hover>
-        <template v-slot:activator="{ props }">
+    <v-menu open-on-hover>
+      <template v-slot:activator="{ props }">
+        <v-list class="header__user">
           <v-list-item :prepend-avatar="user.picture" :title="user.name" :subtitle="user.email" v-bind="props" />
-        </template>
-        <v-list class="header__dropdown">
-          <v-list-item @click="logOut">
-            <v-list-item-title>Log out</v-list-item-title>
-          </v-list-item>
         </v-list>
-      </v-menu>
-    </div>
+      </template>
+      <v-list class="header__dropdown">
+        <v-list-item @click="logOut">
+          <v-list-item-title>Log out</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </v-toolbar>
 </template>
 <script lang="ts" setup>
@@ -40,8 +40,12 @@ const logOut = (): void => {
 }
 
 .header__title {
-  max-width: 150px;
-  text-transform: uppercase;
+  max-width: 180px;
+  text-transform: uppercase !important;
+}
+
+.header__user {
+  background-color: transparent !important;
 }
 
 .header__dropdown {
@@ -49,7 +53,7 @@ const logOut = (): void => {
   min-width: 50%;
   cursor: pointer;
 
-  & :hover {
+  &:hover {
     background-color: $gray;
   }
 }
