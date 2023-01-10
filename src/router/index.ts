@@ -11,6 +11,28 @@ const routes: Array<RouteRecordRaw> = [
       title: 'Login',
     },
   },
+  {
+    path: Routes.RESOURCES.path,
+    name: Routes.RESOURCES.name,
+    component: () => import('../views/Resources.vue'),
+    props: (route: RouteLocation) => ({ query: route.query }),
+    meta: {
+      title: 'Resources',
+    },
+  },
+  {
+    path: Routes.DASHBOARD.path,
+    name: Routes.DASHBOARD.name,
+    component: () => import('../views/Dashboard.vue'),
+    props: true,
+    meta: {
+      title: 'Dashboard',
+    },
+  },
+  {
+    path: '/',
+    redirect: Routes.RESOURCES,
+  },
 ];
 
 const router = createRouter({

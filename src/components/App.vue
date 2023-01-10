@@ -1,22 +1,20 @@
 <template>
+  <app-header />
   <router-view />
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { RouteLocation } from 'vue-router';
-import { DEFAULT_APP_TITLE } from '@/const';
+<script lang="ts" setup>
+import { onMounted } from 'vue';
+import AppHeader from '@/components/AppHeader.vue';
+import { useUserStore } from '@/store/user';
+import TokenStorage from '@/TokenStorage';
 
-export default defineComponent({
-  name: 'App',
-  watch: {
-    $route: {
-      handler({ meta }: RouteLocation): void {
-        document.title = meta.title ? String(meta.title) : DEFAULT_APP_TITLE;
-      },
-      immediate: true,
-    },
-  },
+const userStore = useUserStore();
+
+onMounted(() => {
+  if (TokenStorage.has()) {
+    userStore.getUser().then();
+  }
 });
 </script>
 <style lang="scss">
