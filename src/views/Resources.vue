@@ -6,9 +6,9 @@
         v-for="resource in resources"
         :key="resource.id"
         :value="resource.id"
+        :to="{ ...Routes.DASHBOARD, params: { resourceId: resource.id } }"
         active-color="primary"
         ref="input"
-        :to="{ ...Routes.DASHBOARD, params: { resourceId: resource.id } }"
       >
         <template v-slot:prepend>
           <v-avatar :image="resource.avatarUrl" />

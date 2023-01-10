@@ -2,7 +2,7 @@
   <div class="login">
     <v-btn :href="$utils.url.buildAuthUrl().toString()" variant="plain" class="login__btn">
       <div class="login__btn-items">
-        <img src="../../public/img/icons/atlassian-logo.png" alt="Atlassian icon" v-if="!isLoading" />
+        <img v-if="!isLoading" src="../../public/img/icons/atlassian-logo.png" alt="Atlassian icon" />
         <v-progress-circular v-if="isLoading" />
         <span class="login__btn-title">Login via atlassian</span>
       </div>
@@ -24,11 +24,10 @@ const props = defineProps<{ query: LocationQuery }>();
 const error: Ref<Raw | null> = ref(null);
 const userStore = useUserStore();
 const isLoading: Ref<boolean> = ref(false);
-const hasToken = TokenStorage.hasToken();
 const router = useRouter();
 
 onMounted(() => {
-  if (!props.query.code || hasToken) {
+  if (!props.query.code || TokenStorage.has()) {
     return;
   }
   isLoading.value = true;

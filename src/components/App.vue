@@ -10,10 +10,9 @@ import { useUserStore } from '@/store/user';
 import TokenStorage from '@/TokenStorage';
 
 const userStore = useUserStore();
-const hasToken = TokenStorage.hasToken();
 
 onMounted(() => {
-  if (hasToken) {
+  if (TokenStorage.has()) {
     userStore.getUser().then();
   }
 });

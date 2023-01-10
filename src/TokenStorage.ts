@@ -9,7 +9,7 @@ export default class TokenStorage {
     localStorage.setItem(STORAGE_KEY, token);
   }
 
-  static hasToken(): boolean {
+  static has(): boolean {
     return !!localStorage.getItem(STORAGE_KEY);
   }
 

@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar :elevation="8" v-if="user" class="header">
+  <v-toolbar v-if="user" :elevation="8" class="header">
     <v-toolbar-title class="header__title">Jira Analytics</v-toolbar-title>
     <v-btn :to="Routes.RESOURCES">Resources</v-btn>
     <v-spacer />
