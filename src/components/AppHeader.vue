@@ -114,6 +114,8 @@ const logOut = (): void => {
 
 .menu {
   height: 8%;
+  display: flex;
+  justify-content: center !important;
 }
 
 .menu__background {
