@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isActiveDrawer" @click="isActiveDrawer = false" class="menu-background" />
+  <div v-if="isActiveDrawer" @click="isActiveDrawer = false" class="menu__background" />
   <div v-if="user">
     <v-toolbar :elevation="8" class="header desktop">
       <v-toolbar-title class="header__title">Jira Analytics</v-toolbar-title>
@@ -21,7 +21,7 @@
 
     <v-card class="mobile">
       <v-layout>
-        <v-app-bar density="compact" class="bar">
+        <v-app-bar density="compact" class="menu">
           <template v-slot:prepend>
             <v-app-bar-nav-icon @click="isActiveDrawer = !isActiveDrawer" />
           </template>
@@ -34,7 +34,7 @@
     <v-card v-if="isActiveDrawer" class="drawer">
       <v-layout>
         <v-navigation-drawer v-model="isActiveDrawer" temporary>
-          <v-list-item :title="user.name" :subtitle="user.email" class="bar" />
+          <v-list-item :title="user.name" :subtitle="user.email" class="menu" />
           <v-divider />
           <v-list density="compact" class="drawer" nav>
             <v-list-item :to="Routes.RESOURCES" @click="isActiveDrawer = !isActiveDrawer">Resources</v-list-item>
@@ -102,10 +102,6 @@ const logOut = (): void => {
   }
 }
 
-.bar {
-  height: 8%;
-}
-
 .drawer {
   z-index: 100 !important;
   height: 90%;
@@ -116,7 +112,11 @@ const logOut = (): void => {
   bottom: 10px;
 }
 
-.menu-background {
+.menu {
+  height: 8%;
+}
+
+.menu__background {
   position: absolute;
   height: 100%;
   width: 100%;
