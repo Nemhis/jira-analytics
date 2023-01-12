@@ -1,17 +1,17 @@
 <template>
-  <div v-if="drawerIsActive" @click="drawerIsActive = false" class="header__mobile-drawer-background" />
+  <div v-if="drawerIsActive" @click="drawerIsActive = false" class="app-header__mobile-drawer-background" />
   <div v-if="user">
-    <v-toolbar :elevation="8" class="desktop header">
-      <v-toolbar-title class="header__title">Jira Analytics</v-toolbar-title>
+    <v-toolbar :elevation="8" class="app-header__desktop app-header">
+      <v-toolbar-title class="app-header__title">Jira Analytics</v-toolbar-title>
       <v-btn :to="Routes.RESOURCES">Resources</v-btn>
       <v-spacer />
       <v-menu open-on-hover>
         <template v-slot:activator="{ props }">
-          <v-list class="header__user">
+          <v-list class="app-header__user">
             <v-list-item :prepend-avatar="user.picture" :title="user.name" :subtitle="user.email" v-bind="props" />
           </v-list>
         </template>
-        <v-list class="header__dropdown">
+        <v-list class="app-header__dropdown">
           <v-list-item @click="logOut">
             <v-list-item-title>Log out</v-list-item-title>
           </v-list-item>
@@ -19,9 +19,9 @@
       </v-menu>
     </v-toolbar>
 
-    <v-card class="mobile">
+    <v-card class="app-header__mobile">
       <v-layout>
-        <v-app-bar density="compact" class="header header_mobile-menu">
+        <v-app-bar density="compact" class="app-header app-header_mobile-menu">
           <template v-slot:prepend>
             <v-app-bar-nav-icon @click="drawerIsActive = !drawerIsActive" />
           </template>
@@ -31,14 +31,14 @@
       </v-layout>
     </v-card>
 
-    <v-card v-if="drawerIsActive" class="header header__mobile-drawer">
+    <v-card v-if="drawerIsActive" class="app-header app-header__mobile-drawer">
       <v-layout>
-        <v-navigation-drawer v-model="drawerIsActive" temporary class="header">
-          <v-list-item :title="user.name" :subtitle="user.email" class="header header_mobile-menu" />
+        <v-navigation-drawer v-model="drawerIsActive" temporary class="app-header">
+          <v-list-item :title="user.name" :subtitle="user.email" class="app-header app-header_mobile-menu" />
           <v-divider />
-          <v-list density="compact" class="header__mobile-drawer" nav>
+          <v-list density="compact" class="app-header__mobile-drawer" nav>
             <v-list-item :to="Routes.RESOURCES" @click="drawerIsActive = !drawerIsActive">Resources</v-list-item>
-            <v-list-item @click="logOut" class="header__mobile-drawer-logout">Log out</v-list-item>
+            <v-list-item @click="logOut" class="app-header__mobile-drawer-logout">Log out</v-list-item>
           </v-list>
         </v-navigation-drawer>
       </v-layout>
@@ -65,35 +65,33 @@ const logOut = (): void => {
 
 <style lang="scss">
 @import '~@/styles/colors';
+@import '~@/styles/screenSize';
 
-@media screen and (width >= 992px) {
-  .mobile {
-    visibility: hidden;
-    max-width: 448px;
-  }
-}
-
-.header {
+.app-header {
   background-color: #eee !important;
 }
 
-.header_mobile-menu {
+.app-header__desktop {
+  visibility: hidden;
+}
+
+.app-header_mobile-menu {
   height: 8%;
   justify-content: center !important;
 }
 
-.header__mobile-drawer {
+.app-header__mobile-drawer {
   z-index: 100 !important;
   height: 90%;
 }
 
-.header__mobile-drawer-logout {
+.app-header__mobile-drawer-logout {
   position: absolute !important;
   bottom: 10px;
   width: 95%;
 }
 
-.header__mobile-drawer-background {
+.app-header__mobile-drawer-background {
   position: absolute;
   z-index: 99;
   height: 100%;
@@ -102,28 +100,48 @@ const logOut = (): void => {
   opacity: 0.3;
 }
 
-@media screen and (width < 992px) {
-  .desktop {
+@media screen and (min-width: $screen-sm) {
+  .app-header__mobile {
     visibility: hidden;
   }
-}
 
-.header__title {
-  max-width: 180px;
-  text-transform: uppercase !important;
-}
+  .app-header__desktop {
+    visibility: visible;
+  }
 
-.header__user {
-  background-color: transparent !important;
-}
+  .app-header_mobile-menu {
+    visibility: hidden;
+  }
 
-.header__dropdown {
-  margin-left: auto;
-  min-width: 50%;
-  cursor: pointer;
+  .app-header__mobile-drawer {
+    visibility: hidden;
+  }
 
-  &:hover {
-    background-color: $gray;
+  .app-header__mobile-drawer-logout {
+    visibility: hidden;
+  }
+
+  .app-header__mobile-drawer-background {
+    visibility: hidden;
+  }
+
+  .app-header__title {
+    max-width: 180px;
+    text-transform: uppercase !important;
+  }
+
+  .app-header__user {
+    background-color: transparent !important;
+  }
+
+  .app-header__dropdown {
+    margin-left: auto;
+    min-width: 50%;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $gray;
+    }
   }
 }
 </style>
