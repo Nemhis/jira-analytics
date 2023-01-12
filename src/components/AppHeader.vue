@@ -1,5 +1,5 @@
 <template>
-  <div v-if="drawerIsActive" @click="drawerIsActive = false" class="header__drawer-background" />
+  <div v-if="drawerIsActive" @click="drawerIsActive = false" class="header__mobile-drawer-background" />
   <div v-if="user">
     <v-toolbar :elevation="8" class="desktop header">
       <v-toolbar-title class="header__title">Jira Analytics</v-toolbar-title>
@@ -21,7 +21,7 @@
 
     <v-card class="mobile">
       <v-layout>
-        <v-app-bar density="compact" class="header header__menu">
+        <v-app-bar density="compact" class="header header_mobile-menu">
           <template v-slot:prepend>
             <v-app-bar-nav-icon @click="drawerIsActive = !drawerIsActive" />
           </template>
@@ -31,14 +31,14 @@
       </v-layout>
     </v-card>
 
-    <v-card v-if="drawerIsActive" class="header header__drawer">
+    <v-card v-if="drawerIsActive" class="header header__mobile-drawer">
       <v-layout>
         <v-navigation-drawer v-model="drawerIsActive" temporary class="header">
-          <v-list-item :title="user.name" :subtitle="user.email" class="header header__menu" />
+          <v-list-item :title="user.name" :subtitle="user.email" class="header header_mobile-menu" />
           <v-divider />
-          <v-list density="compact" class="header__drawer" nav>
+          <v-list density="compact" class="header__mobile-drawer" nav>
             <v-list-item :to="Routes.RESOURCES" @click="drawerIsActive = !drawerIsActive">Resources</v-list-item>
-            <v-list-item @click="logOut" class="header__drawer-logout">Log out</v-list-item>
+            <v-list-item @click="logOut" class="header__mobile-drawer-logout">Log out</v-list-item>
           </v-list>
         </v-navigation-drawer>
       </v-layout>
@@ -77,23 +77,23 @@ const logOut = (): void => {
   background-color: #eee !important;
 }
 
-.header__menu {
+.header_mobile-menu {
   height: 8%;
   justify-content: center !important;
 }
 
-.header__drawer {
+.header__mobile-drawer {
   z-index: 100 !important;
   height: 90%;
 }
 
-.header__drawer-logout {
+.header__mobile-drawer-logout {
   position: absolute !important;
   bottom: 10px;
   width: 95%;
 }
 
-.header__drawer-background {
+.header__mobile-drawer-background {
   position: absolute;
   z-index: 99;
   height: 100%;
