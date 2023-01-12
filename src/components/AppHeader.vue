@@ -1,7 +1,7 @@
 <template>
-  <div v-if="isActiveDrawer" @click="isActiveDrawer = false" class="menu__background" />
+  <div v-if="drawerIsActive" @click="drawerIsActive = false" class="header__drawer-background" />
   <div v-if="user">
-    <v-toolbar :elevation="8" class="header desktop">
+    <v-toolbar :elevation="8" class="desktop header">
       <v-toolbar-title class="header__title">Jira Analytics</v-toolbar-title>
       <v-btn :to="Routes.RESOURCES">Resources</v-btn>
       <v-spacer />
@@ -21,9 +21,9 @@
 
     <v-card class="mobile">
       <v-layout>
-        <v-app-bar density="compact" class="menu">
+        <v-app-bar density="compact" class="header header__menu">
           <template v-slot:prepend>
-            <v-app-bar-nav-icon @click="isActiveDrawer = !isActiveDrawer" />
+            <v-app-bar-nav-icon @click="drawerIsActive = !drawerIsActive" />
           </template>
           <v-app-bar-title>Jira Analytics</v-app-bar-title>
           <v-list-item :prepend-avatar="user.picture" />
@@ -31,14 +31,14 @@
       </v-layout>
     </v-card>
 
-    <v-card v-if="isActiveDrawer" class="drawer">
+    <v-card v-if="drawerIsActive" class="header header__drawer">
       <v-layout>
-        <v-navigation-drawer v-model="isActiveDrawer" temporary>
-          <v-list-item :title="user.name" :subtitle="user.email" class="menu" />
+        <v-navigation-drawer v-model="drawerIsActive" temporary class="header">
+          <v-list-item :title="user.name" :subtitle="user.email" class="header header__menu" />
           <v-divider />
-          <v-list density="compact" class="drawer" nav>
-            <v-list-item :to="Routes.RESOURCES" @click="isActiveDrawer = !isActiveDrawer">Resources</v-list-item>
-            <v-list-item @click="logOut" class="drawer__logout">Log out</v-list-item>
+          <v-list density="compact" class="header__drawer" nav>
+            <v-list-item :to="Routes.RESOURCES" @click="drawerIsActive = !drawerIsActive">Resources</v-list-item>
+            <v-list-item @click="logOut" class="header__drawer-logout">Log out</v-list-item>
           </v-list>
         </v-navigation-drawer>
       </v-layout>
@@ -55,32 +55,57 @@ import { ref } from 'vue';
 
 const userStore = useUserStore();
 const { user } = storeToRefs(useUserStore());
-const isActiveDrawer = ref(false);
+const drawerIsActive = ref(false);
 const logOut = (): void => {
   userStore.logout();
   Router.push(Routes.LOGIN).then();
-  isActiveDrawer.value = false;
+  drawerIsActive.value = false;
 };
 </script>
 
 <style lang="scss">
 @import '~@/styles/colors';
 
-@media screen and (min-width: 992px) {
+@media screen and (width >= 992px) {
   .mobile {
     visibility: hidden;
     max-width: 448px;
   }
 }
 
-@media screen and (max-width: 992px) {
+.header {
+  background-color: #eee !important;
+}
+
+.header__menu {
+  height: 8%;
+  justify-content: center !important;
+}
+
+.header__drawer {
+  z-index: 100 !important;
+  height: 90%;
+}
+
+.header__drawer-logout {
+  position: absolute !important;
+  bottom: 10px;
+  width: 95%;
+}
+
+.header__drawer-background {
+  position: absolute;
+  z-index: 99;
+  height: 100%;
+  width: 100%;
+  background-color: $black;
+  opacity: 0.3;
+}
+
+@media screen and (width < 992px) {
   .desktop {
     visibility: hidden;
   }
-}
-
-.header {
-  display: flex;
 }
 
 .header__title {
@@ -100,29 +125,5 @@ const logOut = (): void => {
   &:hover {
     background-color: $gray;
   }
-}
-
-.drawer {
-  z-index: 100 !important;
-  height: 90%;
-}
-
-.drawer__logout {
-  position: absolute !important;
-  bottom: 10px;
-}
-
-.menu {
-  height: 8%;
-  display: flex;
-  justify-content: center !important;
-}
-
-.menu__background {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  background-color: $black;
-  opacity: 0.3;
 }
 </style>
