@@ -72,10 +72,10 @@ const logOut = (): void => {
 }
 
 .app-header__desktop {
-  visibility: hidden;
+  display: none;
 }
 
-.app-header_mobile-menu {
+.app-header__mobile-menu {
   height: 8%;
   justify-content: center !important;
 }
@@ -102,7 +102,7 @@ const logOut = (): void => {
 
 @media screen and (min-width: $screen-sm) {
   .app-header__mobile {
-    visibility: hidden;
+    display: none;
   }
 
   .app-header__desktop {
@@ -110,19 +110,19 @@ const logOut = (): void => {
   }
 
   .app-header_mobile-menu {
-    visibility: hidden;
+    display: none;
   }
 
   .app-header__mobile-drawer {
-    visibility: hidden;
+    display: none;
   }
 
   .app-header__mobile-drawer-logout {
-    visibility: hidden;
+    display: none;
   }
 
   .app-header__mobile-drawer-background {
-    visibility: hidden;
+    display: none;
   }
 
   .app-header__title {
