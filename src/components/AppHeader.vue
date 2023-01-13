@@ -1,6 +1,11 @@
 <template>
-  <div v-if="user" class="app-header">
-    <div v-if="mdAndDown">
+  <div class="app-header">
+    <template v-if="mdAndDown">
+      <div
+        v-if="drawerIsActive && mdAndDown"
+        @click="drawerIsActive = false"
+        class="app-header__mobile-drawer-background"
+      />
       <v-card>
         <v-layout>
           <v-app-bar density="compact" class="app-header__menu">
@@ -8,16 +13,16 @@
               <v-app-bar-nav-icon @click="drawerIsActive = !drawerIsActive" />
             </template>
             <v-app-bar-title>{{ title }}</v-app-bar-title>
-            <v-list-item :prepend-avatar="user.picture" />
+            <v-list-item :prepend-avatar="props.user.picture" />
           </v-app-bar>
         </v-layout>
       </v-card>
 
-      <v-card v-if="drawerIsActive" class="">
+      <v-card v-if="drawerIsActive">
         <v-layout>
           <v-navigation-drawer v-model="drawerIsActive" temporary>
             <v-list class="app-header__menu">
-              <v-list-item :title="user.name" :subtitle="user.email" />
+              <v-list-item :title="props.user.name" :subtitle="props.user.email" />
             </v-list>
             <v-divider />
             <v-list density="compact" class="app-header__mobile-drawer" nav>
@@ -27,18 +32,23 @@
           </v-navigation-drawer>
         </v-layout>
       </v-card>
-    </div>
+    </template>
 
-    <v-card v-else class="">
+    <v-card v-else>
       <v-layout>
         <v-app-bar class="app-header__menu">
           <v-app-bar-title class="app-header__title">{{ title }}</v-app-bar-title>
           <v-btn :to="Routes.RESOURCES">Resources</v-btn>
           <v-spacer />
           <v-menu open-on-hover>
-            <template v-slot:activator="{ props }">
+            <template v-slot:activator="{ props: menu }">
               <v-list bg-color="transparent">
-                <v-list-item :prepend-avatar="user.picture" :title="user.name" :subtitle="user.email" v-bind="props" />
+                <v-list-item
+                  v-bind="menu"
+                  :prepend-avatar="props.user.picture"
+                  :title="props.user.name"
+                  :subtitle="props.user.email"
+                />
               </v-list>
             </template>
             <v-list class="app-header__dropdown">
@@ -51,25 +61,20 @@
       </v-layout>
     </v-card>
   </div>
-  <div
-    v-if="drawerIsActive && mdAndDown"
-    @click="drawerIsActive = false"
-    class="app-header__mobile-drawer-background"
-  />
 </template>
 
 <script lang="ts" setup>
 import { useUserStore } from '@/store/user';
 import { Routes } from '@/router/routes';
-import { storeToRefs } from 'pinia';
 import Router from '@/router';
-import { ref } from 'vue';
+import { defineProps, ref } from 'vue';
 import { useDisplay } from 'vuetify';
+import User from '@/adapters/User';
 
 const title = 'Jira analytics';
 const { mdAndDown } = useDisplay();
 const userStore = useUserStore();
-const { user } = storeToRefs(useUserStore());
+const props = defineProps<{ user: User }>();
 const drawerIsActive = ref(false);
 const logOut = (): void => {
   userStore.logout();
@@ -83,6 +88,7 @@ const logOut = (): void => {
 @import '~@/styles/vars';
 
 .app-header {
+  position: relative;
   height: 64px;
   z-index: 1000;
 }
@@ -104,7 +110,6 @@ const logOut = (): void => {
 
 .app-header__mobile-drawer-background {
   position: fixed;
-  z-index: 99;
   height: 100%;
   width: 100%;
   background-color: $black;
