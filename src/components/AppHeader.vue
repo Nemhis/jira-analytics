@@ -1,5 +1,9 @@
 <template>
-  <div v-if="drawerIsActive" @click="drawerIsActive = false" class="app-header__mobile-drawer-background" />
+  <div
+    v-if="drawerIsActive && mdAndDown"
+    @click="drawerIsActive = false"
+    class="app-header__mobile-drawer-background"
+  />
   <div v-if="user">
     <div v-if="mdAndDown">
       <v-card class="app-header">
