@@ -8,13 +8,9 @@ const vuetify = createVuetify({
   components,
   directives,
   display: {
-    mobileBreakpoint: 'sm',
+    mobileBreakpoint: 'lg',
     thresholds: {
-      xs: 0,
-      sm: 340,
-      md: 540,
       lg: 992,
-      xl: 1280,
     },
   },
 });

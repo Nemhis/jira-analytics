@@ -1,27 +1,24 @@
 <template>
-  <div
-    v-if="drawerIsActive && mdAndDown"
-    @click="drawerIsActive = false"
-    class="app-header__mobile-drawer-background"
-  />
   <div v-if="user">
     <div v-if="mdAndDown">
       <v-card class="app-header">
         <v-layout>
-          <v-app-bar density="compact" class="app-header app-header__mobile-menu">
+          <v-app-bar density="compact" class="app-header__menu">
             <template v-slot:prepend>
               <v-app-bar-nav-icon @click="drawerIsActive = !drawerIsActive" />
             </template>
-            <v-app-bar-title>Jira Analytics</v-app-bar-title>
+            <v-app-bar-title>{{ title }}</v-app-bar-title>
             <v-list-item :prepend-avatar="user.picture" />
           </v-app-bar>
         </v-layout>
       </v-card>
 
-      <v-card v-if="drawerIsActive" class="app-header app-header__mobile-drawer">
+      <v-card v-if="drawerIsActive" class="app-header">
         <v-layout>
-          <v-navigation-drawer v-model="drawerIsActive" temporary class="app-header">
-            <v-list-item :title="user.name" :subtitle="user.email" class="app-header app-header_mobile-menu" />
+          <v-navigation-drawer v-model="drawerIsActive" temporary>
+            <v-list class="app-header__menu">
+              <v-list-item :title="user.name" :subtitle="user.email" />
+            </v-list>
             <v-divider />
             <v-list density="compact" class="app-header__mobile-drawer" nav>
               <v-list-item :to="Routes.RESOURCES" @click="drawerIsActive = !drawerIsActive">Resources</v-list-item>
@@ -30,17 +27,23 @@
           </v-navigation-drawer>
         </v-layout>
       </v-card>
+
+      <div
+        v-if="drawerIsActive && mdAndDown"
+        @click="drawerIsActive = false"
+        class="app-header__mobile-drawer-background"
+      />
     </div>
 
-    <v-card class="app-header" v-else>
+    <v-card v-else class="app-header">
       <v-layout>
-        <v-app-bar class="app-header__desktop app-header">
-          <v-app-bar-title class="app-header__title">Jira Analytics</v-app-bar-title>
+        <v-app-bar class="app-header__menu">
+          <v-app-bar-title class="app-header__title">{{ title }}</v-app-bar-title>
           <v-btn :to="Routes.RESOURCES">Resources</v-btn>
           <v-spacer />
           <v-menu open-on-hover>
             <template v-slot:activator="{ props }">
-              <v-list class="app-header__user">
+              <v-list bg-color="transparent">
                 <v-list-item :prepend-avatar="user.picture" :title="user.name" :subtitle="user.email" v-bind="props" />
               </v-list>
             </template>
@@ -64,6 +67,7 @@ import Router from '@/router';
 import { ref } from 'vue';
 import { useDisplay } from 'vuetify';
 
+const title = 'Jira analytics';
 const { mdAndDown } = useDisplay();
 const userStore = useUserStore();
 const { user } = storeToRefs(useUserStore());
@@ -80,22 +84,21 @@ const logOut = (): void => {
 @import '~@/styles/vars';
 
 .app-header {
-  background-color: #eee !important;
   height: 8%;
-  z-index: 1000 !important;
+  z-index: 1000;
 }
 
-.app-header__mobile-menu {
-  justify-content: center !important;
+.app-header__menu {
+  height: 8%;
+  justify-content: center;
 }
 
 .app-header__mobile-drawer {
-  z-index: 1000 !important;
   height: 90%;
 }
 
 .app-header__mobile-drawer-logout {
-  position: absolute !important;
+  position: absolute;
   bottom: 10px;
   width: 95%;
 }
@@ -109,17 +112,9 @@ const logOut = (): void => {
   opacity: 0.3;
 }
 
-.app-header__desktop {
-  z-index: 1000 !important;
-}
-
 .app-header__title {
   max-width: 180px;
-  text-transform: uppercase !important;
-}
-
-.app-header__user {
-  background-color: transparent !important;
+  text-transform: uppercase;
 }
 
 .app-header__dropdown {
