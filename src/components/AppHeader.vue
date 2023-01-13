@@ -1,7 +1,7 @@
 <template>
-  <div v-if="user">
+  <div v-if="user" class="app-header">
     <div v-if="mdAndDown">
-      <v-card class="app-header">
+      <v-card>
         <v-layout>
           <v-app-bar density="compact" class="app-header__menu">
             <template v-slot:prepend>
@@ -13,7 +13,7 @@
         </v-layout>
       </v-card>
 
-      <v-card v-if="drawerIsActive" class="app-header">
+      <v-card v-if="drawerIsActive" class="">
         <v-layout>
           <v-navigation-drawer v-model="drawerIsActive" temporary>
             <v-list class="app-header__menu">
@@ -27,15 +27,9 @@
           </v-navigation-drawer>
         </v-layout>
       </v-card>
-
-      <div
-        v-if="drawerIsActive && mdAndDown"
-        @click="drawerIsActive = false"
-        class="app-header__mobile-drawer-background"
-      />
     </div>
 
-    <v-card v-else class="app-header">
+    <v-card v-else class="">
       <v-layout>
         <v-app-bar class="app-header__menu">
           <v-app-bar-title class="app-header__title">{{ title }}</v-app-bar-title>
@@ -57,6 +51,11 @@
       </v-layout>
     </v-card>
   </div>
+  <div
+    v-if="drawerIsActive && mdAndDown"
+    @click="drawerIsActive = false"
+    class="app-header__mobile-drawer-background"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -84,12 +83,12 @@ const logOut = (): void => {
 @import '~@/styles/vars';
 
 .app-header {
-  height: 8%;
+  height: 64px;
   z-index: 1000;
 }
 
 .app-header__menu {
-  height: 8%;
+  height: 64px;
   justify-content: center;
 }
 
