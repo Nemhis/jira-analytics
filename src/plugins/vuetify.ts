@@ -8,7 +8,6 @@ const vuetify = createVuetify({
   components,
   directives,
   display: {
-    // Тут можешь настроить свои брейкпоинты, их может быть меньше и т.д.
     mobileBreakpoint: 'sm',
     thresholds: {
       xs: 0,
