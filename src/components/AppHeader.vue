@@ -1,7 +1,35 @@
 <template>
   <div v-if="drawerIsActive" @click="drawerIsActive = false" class="app-header__mobile-drawer-background" />
   <div v-if="user">
-    <v-card class="app-header">
+    <div v-if="mdAndDown">
+      <div class="app-header__mobile">
+        <v-card class="app-header">
+          <v-layout>
+            <v-app-bar density="compact" class="app-header app-header__mobile-menu">
+              <template v-slot:prepend>
+                <v-app-bar-nav-icon @click="drawerIsActive = !drawerIsActive" />
+              </template>
+              <v-app-bar-title>Jira Analytics</v-app-bar-title>
+              <v-list-item :prepend-avatar="user.picture" />
+            </v-app-bar>
+          </v-layout>
+        </v-card>
+
+        <v-card v-if="drawerIsActive" class="app-header app-header__mobile-drawer">
+          <v-layout>
+            <v-navigation-drawer v-model="drawerIsActive" temporary class="app-header">
+              <v-list-item :title="user.name" :subtitle="user.email" class="app-header app-header_mobile-menu" />
+              <v-divider />
+              <v-list density="compact" class="app-header__mobile-drawer" nav>
+                <v-list-item :to="Routes.RESOURCES" @click="drawerIsActive = !drawerIsActive">Resources</v-list-item>
+                <v-list-item @click="logOut" class="app-header__mobile-drawer-logout">Log out</v-list-item>
+              </v-list>
+            </v-navigation-drawer>
+          </v-layout>
+        </v-card>
+      </div>
+    </div>
+    <v-card class="app-header" v-else>
       <v-layout>
         <v-app-bar :elevation="8" class="app-header__desktop app-header">
           <v-app-bar-title class="app-header__title">Jira Analytics</v-app-bar-title>
@@ -22,33 +50,6 @@
         </v-app-bar>
       </v-layout>
     </v-card>
-
-    <div class="app-header__mobile">
-      <v-card class="app-header">
-        <v-layout>
-          <v-app-bar density="compact" class="app-header app-header__mobile-menu">
-            <template v-slot:prepend>
-              <v-app-bar-nav-icon @click="drawerIsActive = !drawerIsActive" />
-            </template>
-            <v-app-bar-title>Jira Analytics</v-app-bar-title>
-            <v-list-item :prepend-avatar="user.picture" />
-          </v-app-bar>
-        </v-layout>
-      </v-card>
-
-      <v-card v-if="drawerIsActive" class="app-header app-header__mobile-drawer">
-        <v-layout>
-          <v-navigation-drawer v-model="drawerIsActive" temporary class="app-header">
-            <v-list-item :title="user.name" :subtitle="user.email" class="app-header app-header_mobile-menu" />
-            <v-divider />
-            <v-list density="compact" class="app-header__mobile-drawer" nav>
-              <v-list-item :to="Routes.RESOURCES" @click="drawerIsActive = !drawerIsActive">Resources</v-list-item>
-              <v-list-item @click="logOut" class="app-header__mobile-drawer-logout">Log out</v-list-item>
-            </v-list>
-          </v-navigation-drawer>
-        </v-layout>
-      </v-card>
-    </div>
   </div>
 </template>
 
@@ -58,7 +59,9 @@ import { Routes } from '@/router/routes';
 import { storeToRefs } from 'pinia';
 import Router from '@/router';
 import { ref } from 'vue';
+import { useDisplay } from 'vuetify';
 
+const { mdAndDown } = useDisplay();
 const userStore = useUserStore();
 const { user } = storeToRefs(useUserStore());
 const drawerIsActive = ref(false);
@@ -76,11 +79,7 @@ const logOut = (): void => {
 .app-header {
   background-color: #eee !important;
   height: 8%;
-  z-index: 100 !important;
-}
-
-.app-header__desktop {
-  display: none !important;
+  z-index: 1000 !important;
 }
 
 .app-header__mobile-menu {
@@ -88,7 +87,7 @@ const logOut = (): void => {
 }
 
 .app-header__mobile-drawer {
-  z-index: 100 !important;
+  z-index: 1000 !important;
   height: 90%;
 }
 
@@ -107,33 +106,26 @@ const logOut = (): void => {
   opacity: 0.3;
 }
 
-@media screen and (min-width: $screen-sm) {
-  .app-header__mobile {
-    display: none !important;
-  }
+.app-header__desktop {
+  z-index: 1000 !important;
+}
 
-  .app-header__desktop {
-    display: flex !important;
-    z-index: 1000 !important;
-  }
+.app-header__title {
+  max-width: 180px;
+  text-transform: uppercase !important;
+}
 
-  .app-header__title {
-    max-width: 180px;
-    text-transform: uppercase !important;
-  }
+.app-header__user {
+  background-color: transparent !important;
+}
 
-  .app-header__user {
-    background-color: transparent !important;
-  }
+.app-header__dropdown {
+  margin-left: auto;
+  min-width: 50%;
+  cursor: pointer;
 
-  .app-header__dropdown {
-    margin-left: auto;
-    min-width: 50%;
-    cursor: pointer;
-
-    &:hover {
-      background-color: $gray;
-    }
+  &:hover {
+    background-color: $gray;
   }
 }
 </style>
