@@ -117,22 +117,6 @@ const logOut = (): void => {
     z-index: 1000 !important;
   }
 
-  .app-header_mobile-menu {
-    display: none !important;
-  }
-
-  .app-header__mobile-drawer {
-    display: none !important;
-  }
-
-  .app-header__mobile-drawer-logout {
-    display: none !important;
-  }
-
-  .app-header__mobile-drawer-background {
-    display: none !important;
-  }
-
   .app-header__title {
     max-width: 180px;
     text-transform: uppercase !important;
