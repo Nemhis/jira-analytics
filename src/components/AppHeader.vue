@@ -2,33 +2,32 @@
   <div v-if="drawerIsActive" @click="drawerIsActive = false" class="app-header__mobile-drawer-background" />
   <div v-if="user">
     <div v-if="mdAndDown">
-      <div class="app-header__mobile">
-        <v-card class="app-header">
-          <v-layout>
-            <v-app-bar density="compact" class="app-header app-header__mobile-menu">
-              <template v-slot:prepend>
-                <v-app-bar-nav-icon @click="drawerIsActive = !drawerIsActive" />
-              </template>
-              <v-app-bar-title>Jira Analytics</v-app-bar-title>
-              <v-list-item :prepend-avatar="user.picture" />
-            </v-app-bar>
-          </v-layout>
-        </v-card>
+      <v-card class="app-header">
+        <v-layout>
+          <v-app-bar density="compact" class="app-header app-header__mobile-menu">
+            <template v-slot:prepend>
+              <v-app-bar-nav-icon @click="drawerIsActive = !drawerIsActive" />
+            </template>
+            <v-app-bar-title>Jira Analytics</v-app-bar-title>
+            <v-list-item :prepend-avatar="user.picture" />
+          </v-app-bar>
+        </v-layout>
+      </v-card>
 
-        <v-card v-if="drawerIsActive" class="app-header app-header__mobile-drawer">
-          <v-layout>
-            <v-navigation-drawer v-model="drawerIsActive" temporary class="app-header">
-              <v-list-item :title="user.name" :subtitle="user.email" class="app-header app-header_mobile-menu" />
-              <v-divider />
-              <v-list density="compact" class="app-header__mobile-drawer" nav>
-                <v-list-item :to="Routes.RESOURCES" @click="drawerIsActive = !drawerIsActive">Resources</v-list-item>
-                <v-list-item @click="logOut" class="app-header__mobile-drawer-logout">Log out</v-list-item>
-              </v-list>
-            </v-navigation-drawer>
-          </v-layout>
-        </v-card>
-      </div>
+      <v-card v-if="drawerIsActive" class="app-header app-header__mobile-drawer">
+        <v-layout>
+          <v-navigation-drawer v-model="drawerIsActive" temporary class="app-header">
+            <v-list-item :title="user.name" :subtitle="user.email" class="app-header app-header_mobile-menu" />
+            <v-divider />
+            <v-list density="compact" class="app-header__mobile-drawer" nav>
+              <v-list-item :to="Routes.RESOURCES" @click="drawerIsActive = !drawerIsActive">Resources</v-list-item>
+              <v-list-item @click="logOut" class="app-header__mobile-drawer-logout">Log out</v-list-item>
+            </v-list>
+          </v-navigation-drawer>
+        </v-layout>
+      </v-card>
     </div>
+
     <v-card class="app-header" v-else>
       <v-layout>
         <v-app-bar :elevation="8" class="app-header__desktop app-header">
