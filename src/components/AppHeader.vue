@@ -30,7 +30,7 @@
 
     <v-card class="app-header" v-else>
       <v-layout>
-        <v-app-bar :elevation="8" class="app-header__desktop app-header">
+        <v-app-bar class="app-header__desktop app-header">
           <v-app-bar-title class="app-header__title">Jira Analytics</v-app-bar-title>
           <v-btn :to="Routes.RESOURCES">Resources</v-btn>
           <v-spacer />
