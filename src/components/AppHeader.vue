@@ -1,54 +1,127 @@
 <template>
-  <v-toolbar v-if="user" :elevation="8" class="header">
-    <v-toolbar-title class="header__title">Jira Analytics</v-toolbar-title>
-    <v-btn :to="Routes.RESOURCES">Resources</v-btn>
-    <v-spacer />
-    <v-menu open-on-hover>
-      <template v-slot:activator="{ props }">
-        <v-list class="header__user">
-          <v-list-item :prepend-avatar="user.picture" :title="user.name" :subtitle="user.email" v-bind="props" />
-        </v-list>
-      </template>
-      <v-list class="header__dropdown">
-        <v-list-item @click="logOut">
-          <v-list-item-title>Log out</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
-  </v-toolbar>
+  <div class="app-header">
+    <template v-if="mdAndDown">
+      <div
+        v-if="drawerIsActive && mdAndDown"
+        @click="drawerIsActive = false"
+        class="app-header__mobile-drawer-background"
+      />
+      <v-card>
+        <v-layout>
+          <v-app-bar density="compact" class="app-header__menu">
+            <template v-slot:prepend>
+              <v-app-bar-nav-icon @click="drawerIsActive = !drawerIsActive" />
+            </template>
+            <v-app-bar-title>{{ title }}</v-app-bar-title>
+            <v-list-item :prepend-avatar="props.user.picture" />
+          </v-app-bar>
+        </v-layout>
+      </v-card>
+
+      <v-card v-if="drawerIsActive">
+        <v-layout>
+          <v-navigation-drawer v-model="drawerIsActive" temporary>
+            <v-list class="app-header__menu">
+              <v-list-item :title="props.user.name" :subtitle="props.user.email" />
+            </v-list>
+            <v-divider />
+            <v-list density="compact" class="app-header__mobile-drawer" nav>
+              <v-list-item :to="Routes.RESOURCES" @click="drawerIsActive = !drawerIsActive">Resources</v-list-item>
+              <v-list-item @click="logOut" class="app-header__mobile-drawer-logout">Log out</v-list-item>
+            </v-list>
+          </v-navigation-drawer>
+        </v-layout>
+      </v-card>
+    </template>
+
+    <v-card v-else>
+      <v-layout>
+        <v-app-bar class="app-header__menu">
+          <v-app-bar-title class="app-header__title">{{ title }}</v-app-bar-title>
+          <v-btn :to="Routes.RESOURCES">Resources</v-btn>
+          <v-spacer />
+          <v-menu open-on-hover>
+            <template v-slot:activator="{ props: menu }">
+              <v-list bg-color="transparent">
+                <v-list-item
+                  v-bind="menu"
+                  :prepend-avatar="props.user.picture"
+                  :title="props.user.name"
+                  :subtitle="props.user.email"
+                />
+              </v-list>
+            </template>
+            <v-list class="app-header__dropdown">
+              <v-list-item @click="logOut">
+                <v-list-item-title>Log out</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-app-bar>
+      </v-layout>
+    </v-card>
+  </div>
 </template>
+
 <script lang="ts" setup>
 import { useUserStore } from '@/store/user';
 import { Routes } from '@/router/routes';
-import { storeToRefs } from 'pinia';
 import Router from '@/router';
+import { defineProps, ref } from 'vue';
+import { useDisplay } from 'vuetify';
+import User from '@/adapters/User';
 
+const title = 'Jira analytics';
+const { mdAndDown } = useDisplay();
 const userStore = useUserStore();
-const { user } = storeToRefs(useUserStore());
-
+const props = defineProps<{ user: User }>();
+const drawerIsActive = ref(false);
 const logOut = (): void => {
   userStore.logout();
   Router.push(Routes.LOGIN).then();
+  drawerIsActive.value = false;
 };
 </script>
 
 <style lang="scss">
 @import '~@/styles/colors';
+@import '~@/styles/vars';
 
-.header {
-  display: flex;
+.app-header {
+  position: relative;
+  height: 64px;
+  z-index: 1000;
 }
 
-.header__title {
+.app-header__menu {
+  height: 64px;
+  justify-content: center;
+}
+
+.app-header__mobile-drawer {
+  height: 90%;
+}
+
+.app-header__mobile-drawer-logout {
+  position: absolute;
+  bottom: 10px;
+  width: 95%;
+}
+
+.app-header__mobile-drawer-background {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: $black;
+  opacity: 0.3;
+}
+
+.app-header__title {
   max-width: 180px;
-  text-transform: uppercase !important;
+  text-transform: uppercase;
 }
 
-.header__user {
-  background-color: transparent !important;
-}
-
-.header__dropdown {
+.app-header__dropdown {
   margin-left: auto;
   min-width: 50%;
   cursor: pointer;

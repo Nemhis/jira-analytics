@@ -32,6 +32,6 @@ onMounted(() => {
 .issues {
   width: 50vw;
   min-width: 300px;
-  margin: 0 auto;
+  margin: 100px auto;
 }
 </style>

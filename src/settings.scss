@@ -1,0 +1,6 @@
+@use '~@/styles/colors';
+
+@use 'vuetify/settings' with (
+  $app-bar-background: colors.$beige,
+  $navigation-drawer-background: colors.$beige,
+);
