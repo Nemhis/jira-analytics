@@ -2,18 +2,12 @@
   <div class="login">
     <v-btn :href="$utils.url.buildAuthUrl().toString()" variant="plain" class="login__btn">
       <div class="login__btn-items">
-        <!--        <img v-if="!isLoading" src="../../public/img/icons/atlassian-logo.png" alt="Atlassian icon" />-->
+        <img v-if="!isLoading" src="../../public/img/icons/atlassian-logo.png" alt="Atlassian icon" />
         <v-progress-circular v-if="isLoading" />
         <span class="login__btn-title">Login via atlassian</span>
       </div>
     </v-btn>
     <p v-if="error"><b>ошибка:</b> {{ error || '-' }}</p>
-
-    <br />
-    <br />
-    <br />
-    <div v-if="smAndDown">это видно начиная с разрешения 340 и меньше</div>
-    <div v-else>это видно на разрешениях более 340</div>
   </div>
 </template>
 
@@ -31,8 +25,6 @@ const error: Ref<Raw | null> = ref(null);
 const userStore = useUserStore();
 const isLoading: Ref<boolean> = ref(false);
 const router = useRouter();
-import { useDisplay } from 'vuetify';
-const { smAndDown } = useDisplay();
 
 onMounted(() => {
   if (!props.query.code || TokenStorage.has()) {
