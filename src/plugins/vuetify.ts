@@ -8,7 +8,6 @@ const vuetify = createVuetify({
   components,
   directives,
   display: {
-
     mobileBreakpoint: 'lg',
     thresholds: {
       lg: 992,
