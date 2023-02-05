@@ -1,5 +1,5 @@
 <template>
-  <app-filters />
+  <project-filter v-model:filter="filter" @submit="handleFilterChange" />
   <v-card v-if="issues.length" :disabled="issues.length === 0" class="issues">
     <v-list density="compact">
       <v-list-subheader>Issues</v-list-subheader>
@@ -12,35 +12,39 @@
 </template>
 
 <script lang="ts" setup>
-import { Ref, ref, defineProps, onMounted, toRefs, watch } from 'vue';
+import { Ref, ref, defineProps, toRefs } from 'vue';
 import { useJiraStore } from '@/store/jira';
 import Issue from '@/adapters/Issue';
-import AppFilters from '@/components/AppFilters.vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import FilterProject from '@/adapters/FilterProject';
+import ProjectFilter from '@/components/FilterProject.vue';
+import { Raw } from '@/@types/Raw';
 
-const route = toRefs(useRoute());
-const jiraStore = useJiraStore();
-const issues: Ref<Issue[]> = ref([]);
-const projectKey = ref(route.query.value.projectKey as string);
 const props = defineProps<{
   resourceId: string;
 }>();
 
-const loadIssue = (): void => {
-  if (projectKey.value) {
-    jiraStore.search(props.resourceId, projectKey.value).then((loadedIssues: Issue[]) => {
-      issues.value = loadedIssues;
-    });
-  }
-};
-onMounted(() => {
-  loadIssue();
-});
+const router = useRouter();
+const route = toRefs(useRoute());
+const jiraStore = useJiraStore();
+const issues: Ref<Issue[]> = ref([]);
+let filter: FilterProject = new FilterProject(route.query.value);
 
-watch(route.query, () => {
-  projectKey.value = route.query.value.projectKey as string;
-  loadIssue();
-});
+const handleFilterChange = (changedFilter: FilterProject): void => {
+  filter = changedFilter;
+  router.push({ query: { ...filter } }).then(() => {
+    if (filter.id) {
+      const searchProject = { project: `jql=project=${route.query.value.id}` };
+      loadIssue(searchProject);
+    }
+  });
+};
+
+const loadIssue = (search: Raw): void => {
+  jiraStore.search(props.resourceId, search.project).then((loadedIssues: Issue[]) => {
+    issues.value = loadedIssues;
+  });
+};
 </script>
 
 <style lang="scss">

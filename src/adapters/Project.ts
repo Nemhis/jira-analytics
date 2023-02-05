@@ -1,16 +1,17 @@
 import { Raw } from '@/@types/Raw';
+import AvatarUrls from '@/adapters/AvatarUrls';
 
 export default class Project {
-  id: string;
+  id: number;
   key: string;
   name: string;
-  avatarUrls: string;
+  avatarUrls: AvatarUrls;
 
   constructor(raw: Raw) {
-    this.id = String(raw['id']);
+    this.id = Number(raw['id']);
     this.key = String(raw['key'] || '');
     this.name = String(raw['name'] || '');
-    this.avatarUrls = String(raw['avatarUrls']['48x48']);
+    this.avatarUrls = AvatarUrls.fromRaw(raw['avatarUrls']);
   }
 
   static fromRaw(raw: Raw): Project {

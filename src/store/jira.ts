@@ -10,18 +10,18 @@ export const useJiraStore = defineStore('jira', {
   },
   getters: {},
   actions: {
-    search(resourceId: string, projectKey: string): Promise<Issue[]> {
-      return this.$api.jira.search(resourceId, projectKey).then(({ data }: AxiosResponse) => {
+    search(resourceId: string, params: Raw): Promise<Issue[]> {
+      return this.$api.jira.search(resourceId, params).then(({ data }: AxiosResponse) => {
         return Array.isArray(data.issues) ? data.issues.map((raw: Raw) => Issue.fromRaw(raw)) : [];
       });
     },
-    projects(resourceId: string): Promise<Project[]> {
-      return this.$api.jira.projects(resourceId).then(({ data }: AxiosResponse) => {
+    getProjects(resourceId: string): Promise<Project[]> {
+      return this.$api.jira.getProjects(resourceId).then(({ data }: AxiosResponse) => {
         return Array.isArray(data.values) ? data.values.map((raw: Raw) => Project.fromRaw(raw)) : [];
       });
     },
-    project(resourceId: string, projectKey: string): Promise<Project[]> {
-      return this.$api.jira.project(resourceId, projectKey).then(({ data }: AxiosResponse) => {
+    getProject(resourceId: string, projectKey: string): Promise<Project[]> {
+      return this.$api.jira.getProject(resourceId, projectKey).then(({ data }: AxiosResponse) => {
         return data ? data : [];
       });
     },
