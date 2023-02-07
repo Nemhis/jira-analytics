@@ -9,16 +9,16 @@
       </v-list-item>
     </v-list>
   </v-card>
+  <v-progress-circular v-if="isLoading" class="issues-loading" indeterminate />
 </template>
 
 <script lang="ts" setup>
-import { Ref, ref, defineProps, toRefs } from 'vue';
+import { Ref, ref, defineProps, toRefs, onMounted } from 'vue';
 import { useJiraStore } from '@/store/jira';
 import Issue from '@/adapters/Issue';
 import { useRoute, useRouter } from 'vue-router';
-import FilterProject from '@/adapters/FilterProject';
-import ProjectFilter from '@/components/FilterProject.vue';
-import { Raw } from '@/@types/Raw';
+import Filter from '@/adapters/Filter';
+import ProjectFilter from '@/components/ProjectFilter.vue';
 
 const props = defineProps<{
   resourceId: string;
@@ -28,23 +28,37 @@ const router = useRouter();
 const route = toRefs(useRoute());
 const jiraStore = useJiraStore();
 const issues: Ref<Issue[]> = ref([]);
-let filter: FilterProject = new FilterProject(route.query.value);
+let filter: Filter = new Filter(route.query.value);
+const isLoading: Ref<boolean> = ref(false);
 
-const handleFilterChange = (changedFilter: FilterProject): void => {
+const handleFilterChange = (changedFilter: Filter): void => {
   filter = changedFilter;
-  router.push({ query: { ...filter } }).then(() => {
-    if (filter.id) {
-      const searchProject = { project: `jql=project=${route.query.value.id}` };
-      loadIssue(searchProject);
+  router.push({ query: { ...Filter.toRaw(filter) } }).then(() => {
+    if (filter.projectId) {
+      loadIssue(filter);
+    } else {
+      issues.value = [];
     }
   });
 };
 
-const loadIssue = (search: Raw): void => {
-  jiraStore.search(props.resourceId, search.project).then((loadedIssues: Issue[]) => {
-    issues.value = loadedIssues;
-  });
+const loadIssue = (search: Filter): void => {
+  issues.value = [];
+  isLoading.value = true;
+  jiraStore
+    .search(props.resourceId, search)
+    .then((loadedIssues: Issue[]) => {
+      issues.value = loadedIssues;
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
 };
+onMounted(() => {
+  if (filter.projectId) {
+    loadIssue(filter);
+  }
+});
 </script>
 
 <style lang="scss">
@@ -52,5 +66,12 @@ const loadIssue = (search: Raw): void => {
   width: 50vw;
   min-width: 300px;
   margin: 100px auto;
+}
+
+.issues-loading {
+  position: relative;
+  height: 100px;
+  width: 100px;
+  margin: 100px calc(50% - 50px);
 }
 </style>

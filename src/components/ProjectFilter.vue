@@ -1,6 +1,6 @@
 <template>
   <v-autocomplete
-    :model-value="draftFilter.id"
+    :model-value="draftFilter.projectId"
     @update:modelValue="handleProjectChange"
     :items="projects"
     :menu-props="{ maxHeight: 300, maxWidth: 300 }"
@@ -12,6 +12,7 @@
     clearable
     outlined
     dense
+    :loading="isLoading"
   >
     <template v-slot:item="{ props, item }">
       <v-list-item v-bind="props" :prepend-avatar="item.raw.avatarUrls.size16">
@@ -26,11 +27,11 @@ import Project from '@/adapters/Project';
 import { Ref, ref, onMounted, defineProps, defineEmits } from 'vue';
 import { useRoute } from 'vue-router';
 import { useJiraStore } from '@/store/jira';
-import FilterProject from '@/adapters/FilterProject';
+import Filter from '@/adapters/Filter';
 import _ from 'lodash';
 
 const props = defineProps<{
-  filter: FilterProject;
+  filter: Filter;
 }>();
 const emit = defineEmits(['submit']);
 
@@ -39,15 +40,21 @@ const route = useRoute();
 const jiraStore = useJiraStore();
 const resourceId = route.params.resourceId as string;
 const projects: Ref<Project[]> = ref([]);
+const isLoading: Ref<boolean> = ref(true);
 
 const handleProjectChange = (id: number | null): void => {
-  draftFilter.value.id = id ? id : undefined;
+  draftFilter.value.projectId = id;
   emit('submit', draftFilter.value);
 };
 onMounted(() => {
-  jiraStore.getProjects(resourceId).then((loadProjects: Project[]) => {
-    projects.value = loadProjects;
-  });
+  jiraStore
+    .getProjects(resourceId)
+    .then((loadProjects: Project[]) => {
+      projects.value = loadProjects;
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
 });
 </script>
 <style>
