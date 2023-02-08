@@ -33,12 +33,9 @@ const isLoading: Ref<boolean> = ref(false);
 
 const handleFilterChange = (changedFilter: Filter): void => {
   filter = changedFilter;
+  console.log(filter);
   router.push({ query: { ...Filter.toRaw(filter) } }).then(() => {
-    if (filter.projectId) {
-      loadIssue(filter);
-    } else {
-      issues.value = [];
-    }
+    loadIssue(filter);
   });
 };
 
@@ -55,9 +52,7 @@ const loadIssue = (search: Filter): void => {
     });
 };
 onMounted(() => {
-  if (filter.projectId) {
-    loadIssue(filter);
-  }
+  loadIssue(filter);
 });
 </script>
 

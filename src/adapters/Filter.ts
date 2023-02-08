@@ -18,6 +18,6 @@ export default class Filter {
   }
 
   static toJQL(item: Filter): string {
-    return String(`project="${item?.projectId}"`);
+    return item.projectId ? `project="${item?.projectId}"` : '';
   }
 }
