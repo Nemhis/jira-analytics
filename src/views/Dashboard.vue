@@ -1,5 +1,5 @@
 <template>
-  <project-filter v-model:filter="filter" @submit="handleFilterChange" />
+  <app-filter v-model:filter="filter" @submit="handleFilterChange" />
   <v-card v-if="issues.length" :disabled="issues.length === 0" class="issues">
     <v-list density="compact">
       <v-list-subheader>Issues</v-list-subheader>
@@ -18,7 +18,7 @@ import { useJiraStore } from '@/store/jira';
 import Issue from '@/adapters/Issue';
 import { useRoute, useRouter } from 'vue-router';
 import Filter from '@/adapters/Filter';
-import ProjectFilter from '@/components/ProjectFilter.vue';
+import AppFilter from '@/components/AppFilter.vue';
 
 const props = defineProps<{
   resourceId: string;
