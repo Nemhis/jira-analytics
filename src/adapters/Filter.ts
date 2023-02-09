@@ -17,9 +17,7 @@ export default class Filter {
     };
   }
 
-  static toJQL(item: Filter): Raw {
-    return {
-      jql: item.projectId ? `project=${item.projectId}` : undefined,
-    };
+  static toJQL(item: Filter): string {
+    return item.projectId ? `project=${item.projectId}` : '';
   }
 }

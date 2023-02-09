@@ -12,7 +12,11 @@ export const useJiraStore = defineStore('jira', {
   getters: {},
   actions: {
     search(resourceId: string, params: Filter): Promise<Issue[]> {
-      return this.$api.jira.search(resourceId, Filter.toJQL(params)).then(({ data }: AxiosResponse) => {
+      let jql = {};
+      if (params.projectId) {
+        jql = { jql: Filter.toJQL(params) };
+      }
+      return this.$api.jira.search(resourceId, jql).then(({ data }: AxiosResponse) => {
         return Array.isArray(data.issues) ? data.issues.map((raw: Raw) => Issue.fromRaw(raw)) : [];
       });
     },
