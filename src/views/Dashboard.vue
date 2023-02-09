@@ -1,5 +1,5 @@
 <template>
-  <app-filter v-model:filter="filter" @submit="handleFilterChange" />
+  <app-filter :filter="filter" @submit="handleFilterChange" />
   <v-card v-if="issues.length" :disabled="issues.length === 0" class="issues">
     <v-list density="compact">
       <v-list-subheader>Issues</v-list-subheader>
@@ -28,14 +28,13 @@ const router = useRouter();
 const route = toRefs(useRoute());
 const jiraStore = useJiraStore();
 const issues: Ref<Issue[]> = ref([]);
-let filter: Filter = new Filter(route.query.value);
+let filter: Ref<Filter> = ref(new Filter(route.query.value));
 const isLoading: Ref<boolean> = ref(false);
 
 const handleFilterChange = (changedFilter: Filter): void => {
-  filter = changedFilter;
-  console.log(filter);
-  router.push({ query: { ...Filter.toRaw(filter) } }).then(() => {
-    loadIssue(filter);
+  filter.value = changedFilter;
+  router.push({ query: { ...Filter.toRaw(filter.value) } }).then(() => {
+    loadIssue(filter.value);
   });
 };
 
@@ -52,7 +51,7 @@ const loadIssue = (search: Filter): void => {
     });
 };
 onMounted(() => {
-  loadIssue(filter);
+  loadIssue(filter.value);
 });
 </script>
 

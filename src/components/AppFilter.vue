@@ -1,6 +1,6 @@
 <template>
   <v-autocomplete
-    :model-value="draftFilter.projectId"
+    :model-value="props.filter.projectId"
     @update:modelValue="handleProjectChange"
     :items="projects"
     :menu-props="{ maxHeight: 300, maxWidth: 300 }"
@@ -9,9 +9,9 @@
     label="Project"
     hide-details="auto"
     class="filter-project"
-    clearable
     outlined
     dense
+    clearable
     :loading="isLoading"
   >
     <template v-slot:item="{ props, item }">
@@ -24,7 +24,7 @@
 
 <script lang="ts" setup>
 import Project from '@/adapters/Project';
-import { Ref, ref, onMounted, defineProps, defineEmits } from 'vue';
+import { Ref, ref, onMounted, defineProps, defineEmits, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useJiraStore } from '@/store/jira';
 import Filter from '@/adapters/Filter';
@@ -34,8 +34,7 @@ const props = defineProps<{
   filter: Filter;
 }>();
 const emit = defineEmits(['submit']);
-
-let draftFilter = ref(_.cloneDeep(props.filter));
+let draftFilter = _.cloneDeep(props.filter);
 const route = useRoute();
 const jiraStore = useJiraStore();
 const resourceId = route.params.resourceId as string;
@@ -43,9 +42,23 @@ const projects: Ref<Project[]> = ref([]);
 const isLoading: Ref<boolean> = ref(true);
 
 const handleProjectChange = (id: number | null): void => {
-  draftFilter.value.projectId = id;
-  emit('submit', draftFilter.value);
+  if (id === draftFilter.projectId) {
+    return;
+  }
+  draftFilter.projectId = id;
+  if (props.filter.projectId !== draftFilter.projectId) {
+    emit('submit', draftFilter);
+  }
 };
+
+watch(
+  () => props.filter,
+  () => {
+    draftFilter = _.cloneDeep(props.filter);
+  },
+  { deep: true }
+);
+
 onMounted(() => {
   jiraStore
     .getProjects(resourceId)

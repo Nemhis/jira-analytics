@@ -1,9 +1,10 @@
 import AbstractApi from '@/api/modules/AbstractApi';
 import { AxiosResponse } from 'axios';
+import { Raw } from '@/@types/Raw';
 
 export default class JiraApi extends AbstractApi {
-  search(resourceId: string, jql: string): Promise<AxiosResponse> {
-    return this.api.get(`/${resourceId}/rest/api/3/search`, { params: { jql } });
+  search(resourceId: string, params: Raw): Promise<AxiosResponse> {
+    return this.api.get(`/${resourceId}/rest/api/3/search`, { params });
   }
 
   getProjects(resourceId: string): Promise<AxiosResponse> {
