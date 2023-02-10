@@ -39,7 +39,7 @@ const route = useRoute();
 const jiraStore = useJiraStore();
 const resourceId = route.params.resourceId as string;
 const projects: Ref<Project[]> = ref([]);
-const isLoading: Ref<boolean> = ref(true);
+const isLoading: Ref<boolean> = ref(false);
 
 const handleProjectChange = (id: number | null): void => {
   if (id === draftFilter.projectId) {
@@ -64,6 +64,7 @@ onMounted(() => {
     .getProjects(resourceId)
     .then((loadProjects: Project[]) => {
       projects.value = loadProjects;
+      isLoading.value = true;
     })
     .finally(() => {
       isLoading.value = false;

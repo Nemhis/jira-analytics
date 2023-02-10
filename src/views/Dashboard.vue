@@ -55,10 +55,6 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-.dashboard {
-  visibility: visible;
-}
-
 .dashboard__issues {
   width: 50vw;
   min-width: 300px;
