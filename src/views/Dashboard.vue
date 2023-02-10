@@ -1,6 +1,6 @@
 <template>
-  <app-filter :filter="filter" @submit="handleFilterChange" />
-  <v-card v-if="issues.length" :disabled="issues.length === 0" class="issues">
+  <app-filter :filter="filter" @submit="handleFilterChange" class="dashboard" />
+  <v-card v-if="issues.length && !isLoading" :disabled="issues.length === 0" class="dashboard__issues">
     <v-list density="compact">
       <v-list-subheader>Issues</v-list-subheader>
       <v-list-item v-for="issue in issues" :key="issue.id" :value="issue.id">
@@ -9,7 +9,7 @@
       </v-list-item>
     </v-list>
   </v-card>
-  <v-progress-circular v-if="isLoading" class="issues-loading" indeterminate />
+  <v-progress-circular v-if="isLoading" class="dashboard__issues-loading" indeterminate />
 </template>
 
 <script lang="ts" setup>
@@ -39,7 +39,6 @@ const handleFilterChange = (changedFilter: Filter): void => {
 };
 
 const loadIssue = (search: Filter): void => {
-  issues.value = [];
   isLoading.value = true;
   jiraStore
     .search(props.resourceId, search)
@@ -56,13 +55,17 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-.issues {
+.dashboard {
+  visibility: visible;
+}
+
+.dashboard__issues {
   width: 50vw;
   min-width: 300px;
   margin: 100px auto;
 }
 
-.issues-loading {
+.dashboard__issues-loading {
   position: relative;
   height: 100px;
   width: 100px;

@@ -8,7 +8,7 @@
     item-value="id"
     label="Project"
     hide-details="auto"
-    class="filter-project"
+    class="app-filter"
     outlined
     dense
     clearable
@@ -71,7 +71,7 @@ onMounted(() => {
 });
 </script>
 <style>
-.filter-project {
+.app-filter {
   position: relative;
   margin: 20px auto;
   max-width: 300px;
