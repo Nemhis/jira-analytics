@@ -22,7 +22,7 @@ export default class JQLBuilder {
   }
 
   whereIn(key: string, value: unknown): JQLBuilder {
-    this.conditions.push({ key: key, operator: 'IN', value: value, logicOperator: LogicOperators.AND });
+    this.conditions.push({ key: key, operator: 'IN', value: `(${value})`, logicOperator: LogicOperators.AND });
     return this;
   }
 
@@ -42,8 +42,8 @@ export default class JQLBuilder {
 
     return this.conditions.reduce((previousValue: string, currentValue: Condition): string => {
       let condition = '';
-      if (Array.isArray(currentValue.value)) {
-        condition = `${currentValue.key} ${currentValue.operator} (${currentValue.value.join(', ')})`;
+      if (Array.isArray(currentValue.value) || currentValue.logicOperator === 'IN') {
+        condition = `${currentValue.key} ${currentValue.operator} ${Array(currentValue.value).join(', ')}`;
       } else if (typeof currentValue.value === 'string' || typeof currentValue.value === 'number') {
         condition = `${currentValue.key} ${currentValue.operator} ${currentValue.value}`;
       }

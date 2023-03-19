@@ -10,9 +10,23 @@ export default class Filter {
 
   constructor(raw: Raw) {
     this.projectId = raw['project_id'] ? Number(raw['project_id']) : null;
-    this.sprintIds = raw['sprint_ids'].length ? Array(raw[Number('sprint_ids')]) : null;
-    this.issueIds = raw['issue_ids'] ? raw['issue_ids'] : null;
+    this.sprintIds = raw['sprint_ids']
+      ? typeof raw['sprint_ids'] === 'string'
+        ? [Number(raw['sprint_ids'])]
+        : raw['sprint_ids'].map((id: number) => Number(id))
+      : null;
+
+    this.issueIds = raw['issue_ids']
+      ? typeof raw['issue_ids'] === 'string'
+        ? [Number(raw['issue_ids'])]
+        : raw['issue_ids'].map((id: number) => Number(id))
+      : null;
     this.implementerIds = raw['implementer_ids'] ? raw['implementer_ids'] : null;
+    this.implementerIds = raw['implementer_ids']
+      ? typeof raw['implementer_ids'] === 'string'
+        ? [String(raw['implementer_ids'])]
+        : raw['implementer_ids'].map((id: string) => String(id))
+      : null;
     this.boardId = raw['board_id'] ? Number(raw['board_id']) : null;
   }
 

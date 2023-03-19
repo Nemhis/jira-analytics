@@ -16,7 +16,7 @@ export default class JiraApi extends AbstractApi {
   }
 
   getUsers(resourceId: string, query: string): Promise<AxiosResponse> {
-    return this.api.get(`/${resourceId}/rest/api/3/user/search?query=${query}`);
+    return this.api.get(`/${resourceId}/rest/api/3/user/search?includeInactive=false&maxResults=30&query=${query}`);
   }
 
   getBoards(resourceId: string, projectId: number | null): Promise<AxiosResponse> {

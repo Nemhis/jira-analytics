@@ -147,10 +147,10 @@ const resourceId = route.params.resourceId as string;
 const projects: Ref<Project[]> = ref([]);
 const isLoading: Ref<boolean> = ref(false);
 const users: Ref<User[]> = ref([]);
-const sprints: Ref<Sprint[]> = ref([]);
-const boards: Ref<Board[]> = ref([]);
+let sprints: Ref<Sprint[]> = ref([]);
+let boards: Ref<Board[]> = ref([]);
 const error: Ref<Raw | null> = ref(null);
-const issues: Ref<Issue[]> = ref([]);
+let issues: Ref<Issue[]> = ref([]);
 
 const getBoards = (): void => {
   jiraStore
@@ -208,6 +208,9 @@ const handleProjectChange = (id: number | null): void => {
   draftFilter.sprintIds = null;
   draftFilter.issueIds = null;
   draftFilter.implementerIds = null;
+  boards.value = [];
+  sprints.value = [];
+  issues.value = [];
 
   if (props.filter.projectId !== draftFilter.projectId) {
     emit('submit', draftFilter);
@@ -233,7 +236,7 @@ const handleBoardChange = (id: number | null): void => {
   }
 };
 
-const handleIssueChange = (id: number | null): void => {
+const handleIssueChange = (id: Array<number> | null): void => {
   if (id === draftFilter.issueIds) {
     return;
   }
@@ -244,7 +247,7 @@ const handleIssueChange = (id: number | null): void => {
   }
 };
 
-const handleUserChange = (id: string | null): void => {
+const handleUserChange = (id: Array<string> | null): void => {
   if (id === draftFilter.implementerIds) {
     return;
   }
@@ -255,7 +258,7 @@ const handleUserChange = (id: string | null): void => {
   }
 };
 
-const handleSprintChange = (id: number | null): void => {
+const handleSprintChange = (id: Array<number> | null): void => {
   if (id === draftFilter.sprintIds) {
     return;
   }
@@ -293,6 +296,8 @@ onMounted(() => {
     getSprints();
   }
   loadIssue(draftFilter);
+
+  getUsers('');
 });
 </script>
 <style>
