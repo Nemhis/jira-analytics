@@ -1,5 +1,11 @@
 <template>
-  <app-filter :filter="filter" @submit="handleFilterChange" class="dashboard" />
+  <app-filter
+    :filter="filter"
+    :resourceId="resourceId"
+    :issues="issues"
+    @submit="handleFilterChange"
+    class="dashboard"
+  />
   <v-card v-if="issues.length && !isLoading" :disabled="issues.length === 0" class="dashboard__issues">
     <v-list density="compact">
       <v-list-subheader>Issues</v-list-subheader>
@@ -58,7 +64,7 @@ onMounted(() => {
 .dashboard__issues {
   width: 50vw;
   min-width: 300px;
-  margin: 100px auto;
+  margin: 50px auto;
 }
 
 .dashboard__issues-loading {
