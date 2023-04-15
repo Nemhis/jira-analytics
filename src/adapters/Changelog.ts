@@ -1,4 +1,4 @@
-import { Raw } from '@/@types/Raw';
+import { Raw } from '@/@interfaces/Raw';
 import dayjs from 'dayjs';
 import ChangelogItem from '@/adapters/ChangelogItem';
 

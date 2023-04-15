@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { AxiosResponse } from 'axios';
 import AccessibleResource from '@/adapters/AccessibleResource';
-import { Raw } from '@/@types/Raw';
+import { Raw } from '@/@interfaces/Raw';
 
 export const useAtlassianStore = defineStore('atlassian', {
   state: () => {

@@ -21,3 +21,5 @@ declare module '@vue/runtime-core' {
     $date: (date?: dayjs.ConfigType, format?: dayjs.OptionType) => dayjs.Dayjs;
   }
 }
+
+export default createDayJs();

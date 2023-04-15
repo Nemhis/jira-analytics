@@ -1,4 +1,4 @@
-import { Raw } from '@/@types/Raw';
+import { Raw } from '@/@interfaces/Raw';
 import { ChangelogItemField } from '@/enums/ChangelogItemField';
 
 export default class ChangelogItem {

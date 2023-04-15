@@ -1,4 +1,4 @@
-import { Raw } from '@/@types/Raw';
+import { Raw } from '@/@interfaces/Raw';
 import AvatarUrls from '@/adapters/AvatarUrls';
 
 export default class Project {

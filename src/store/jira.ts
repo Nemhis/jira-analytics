@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { AxiosResponse } from 'axios';
 import Issue from '@/adapters/Issue';
-import { Raw } from '@/@types/Raw';
+import { Raw } from '@/@interfaces/Raw';
 import Project from '@/adapters/Project';
 import Filter from '@/adapters/Filter';
 import PaginatedList from '@/adapters/PaginatedList';
