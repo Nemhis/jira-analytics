@@ -14,4 +14,8 @@ export default class JiraApi extends AbstractApi {
   getProject(resourceId: string, projectKey: string): Promise<AxiosResponse> {
     return this.api.get(`/${resourceId}/rest/api/3/project/${projectKey}`);
   }
+
+  getChangelog(resourceId: string, issueKey: string): Promise<AxiosResponse> {
+    return this.api.get(`/${resourceId}/rest/api/3/issue/${issueKey}/changelog`);
+  }
 }

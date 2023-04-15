@@ -6,6 +6,10 @@
       <v-list-item v-for="issue in issues" :key="issue.id" :value="issue.id">
         <v-list-item-title v-text="issue.fields.summary" />
         <v-list-item-subtitle v-text="issue.key" />
+
+        <v-list-item-action>
+          <v-btn @click.stop="loadTransitions(issue)">Load transitions</v-btn>
+        </v-list-item-action>
       </v-list-item>
     </v-list>
   </v-card>
@@ -49,6 +53,13 @@ const loadIssue = (search: Filter): void => {
       isLoading.value = false;
     });
 };
+
+const loadTransitions = (issue: Issue): void => {
+  jiraStore.loadChangelog(props.resourceId, issue.key).then((changelog) => {
+    console.log(changelog);
+  });
+};
+
 onMounted(() => {
   loadIssue(filter.value);
 });
