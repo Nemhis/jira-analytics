@@ -6,11 +6,12 @@ import Project from '@/adapters/Project';
 import Filter from '@/adapters/Filter';
 import PaginatedList from '@/adapters/PaginatedList';
 import Changelog from '@/adapters/Changelog';
+import WorkflowStatus from '@/adapters/WorkflowStatus';
 
 export const useJiraStore = defineStore('jira', {
-  state: () => {
-    return {};
-  },
+  state: () => ({
+    workflowStatuses: {} as Record<number, WorkflowStatus>,
+  }),
   getters: {},
   actions: {
     search(resourceId: string, params: Filter): Promise<Issue[]> {
@@ -40,6 +41,22 @@ export const useJiraStore = defineStore('jira', {
 
         return list;
       });
+    },
+
+    loadWorkflowStatuses(resourceId: string): Promise<WorkflowStatus[]> {
+      return Object.keys(this.$state.workflowStatuses).length === 0
+        ? this.$api.jira.getWorkflowStatuses(resourceId).then(({ data }: AxiosResponse) => {
+            const statuses: WorkflowStatus[] = Array.isArray(data)
+              ? data.map((raw: Raw) => WorkflowStatus.fromRaw(raw))
+              : [];
+
+            statuses.forEach((status: WorkflowStatus) => {
+              this.$state.workflowStatuses[status.id] = status;
+            });
+
+            return statuses;
+          })
+        : Promise.resolve(Object.values(this.$state.workflowStatuses));
     },
   },
 });

@@ -1,12 +1,8 @@
 import { Raw } from '@/@types/Raw';
-
-export enum ChangelogItemField {
-  STATUS = 'status',
-  ASSIGNEE = 'assignee',
-}
+import { ChangelogItemField } from '@/enums/ChangelogItemField';
 
 export default class ChangelogItem {
-  field: string;
+  field: ChangelogItemField;
   fieldType: string;
   fieldId: string;
   from: number | null;

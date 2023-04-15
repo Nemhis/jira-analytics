@@ -18,4 +18,8 @@ export default class JiraApi extends AbstractApi {
   getChangelog(resourceId: string, issueKey: string): Promise<AxiosResponse> {
     return this.api.get(`/${resourceId}/rest/api/3/issue/${issueKey}/changelog`);
   }
+
+  getWorkflowStatuses(resourceId: string): Promise<AxiosResponse> {
+    return this.api.get(`/${resourceId}/rest/api/3/status`);
+  }
 }

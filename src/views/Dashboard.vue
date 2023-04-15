@@ -23,6 +23,10 @@ import Issue from '@/adapters/Issue';
 import { useRoute, useRouter } from 'vue-router';
 import Filter from '@/adapters/Filter';
 import AppFilter from '@/components/AppFilter.vue';
+import Changelog from '@/adapters/Changelog';
+import PaginatedList from '@/adapters/PaginatedList';
+import ChangelogItem from '@/adapters/ChangelogItem';
+import { ChangelogItemField } from '@/enums/ChangelogItemField';
 
 const props = defineProps<{
   resourceId: string;
@@ -55,13 +59,30 @@ const loadIssue = (search: Filter): void => {
 };
 
 const loadTransitions = (issue: Issue): void => {
-  jiraStore.loadChangelog(props.resourceId, issue.key).then((changelog) => {
-    console.log(changelog);
+  jiraStore.loadChangelog(props.resourceId, issue.key).then((list: PaginatedList<Changelog>) => {
+    list.values.forEach((log: Changelog) => {
+      log.items.forEach((item: ChangelogItem) => {
+        if (item.field !== ChangelogItemField.STATUS) {
+          return;
+        }
+
+        if (item.from) {
+          const fromStatus = jiraStore.$state.workflowStatuses[item.from];
+          console.log('from', fromStatus);
+        }
+
+        if (item.to) {
+          const toStatus = jiraStore.$state.workflowStatuses[item.to];
+          console.log('to', toStatus);
+        }
+      });
+    });
   });
 };
 
 onMounted(() => {
   loadIssue(filter.value);
+  jiraStore.loadWorkflowStatuses(props.resourceId).then();
 });
 </script>
 
