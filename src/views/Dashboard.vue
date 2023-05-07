@@ -1,5 +1,11 @@
 <template>
-  <app-filter :filter="filter" @submit="handleFilterChange" class="dashboard" />
+  <app-filter
+    :filter="filter"
+    :resourceId="resourceId"
+    :issues="issues"
+    @submit="handleFilterChange"
+    class="dashboard"
+  />
 
   <transitions-count-dashboard :loading="isLoading" :issues="issues" :resource-id="props.resourceId" />
 
@@ -63,7 +69,7 @@ onMounted(() => {
 .dashboard__issues {
   width: 50vw;
   min-width: 300px;
-  margin: 100px auto;
+  margin: 50px auto;
 }
 
 .dashboard__issues-loading {

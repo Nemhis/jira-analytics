@@ -22,4 +22,16 @@ export default class JiraApi extends AbstractApi {
   getWorkflowStatuses(resourceId: string): Promise<AxiosResponse> {
     return this.api.get(`/${resourceId}/rest/api/3/status`);
   }
+
+  getUsers(resourceId: string, query: string): Promise<AxiosResponse> {
+    return this.api.get(`/${resourceId}/rest/api/3/user/search?includeInactive=false&maxResults=30&query=${query}`);
+  }
+
+  getBoards(resourceId: string, projectId: number | null): Promise<AxiosResponse> {
+    return this.api.get(`/${resourceId}/rest/agile/1.0/board?${projectId ? `projectKeyOrId=${projectId}` : ''}`);
+  }
+
+  getSprints(resourceId: string, boardId: number | null): Promise<AxiosResponse> {
+    return this.api.get(`/${resourceId}/rest/agile/1.0/board/${boardId}/sprint`);
+  }
 }

@@ -5,14 +5,14 @@ interface IssueFields {
 }
 
 export default class Issue {
-  id: string;
+  id: number;
   key: string;
   fields: IssueFields = {
     summary: '',
   };
 
   constructor(raw: Raw) {
-    this.id = String(raw['id']);
+    this.id = Number(raw['id']);
     this.key = String(raw['key'] || '');
     const fields = raw['fields'] || {};
     this.fields.summary = String(fields['summary'] || '');

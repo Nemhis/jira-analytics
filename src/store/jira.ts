@@ -7,6 +7,9 @@ import Filter from '@/adapters/Filter';
 import PaginatedList from '@/adapters/PaginatedList';
 import Changelog from '@/adapters/Changelog';
 import WorkflowStatus from '@/adapters/WorkflowStatus';
+import User from '@/adapters/User';
+import Sprint from '@/adapters/Sprint';
+import Board from '@/adapters/Board';
 
 export const useJiraStore = defineStore('jira', {
   state: () => ({
@@ -30,6 +33,24 @@ export const useJiraStore = defineStore('jira', {
 
     getProject(resourceId: string, projectKey: string): Promise<Project[]> {
       return this.$api.jira.getProject(resourceId, projectKey).then(({ data }: AxiosResponse) => {
+        return data ? data : [];
+      });
+    },
+
+    getUsers(resourceId: string, query: string): Promise<User[]> {
+      return this.$api.jira.getUsers(resourceId, query).then(({ data }: AxiosResponse) => {
+        return data ? data : [];
+      });
+    },
+
+    getBoards(resourceId: string, projectId: number | null): Promise<Board[]> {
+      return this.$api.jira.getBoards(resourceId, projectId).then(({ data }: AxiosResponse) => {
+        return data ? data : [];
+      });
+    },
+
+    getSprints(resourceId: string, boardId: number | null): Promise<Sprint[]> {
+      return this.$api.jira.getSprints(resourceId, boardId).then(({ data }: AxiosResponse) => {
         return data ? data : [];
       });
     },
