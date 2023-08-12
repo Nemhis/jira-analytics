@@ -6,6 +6,9 @@
     @submit="handleFilterChange"
     class="dashboard"
   />
+
+  <transitions-count-dashboard :loading="isLoading" :issues="issues" :resource-id="props.resourceId" />
+
   <v-card v-if="issues.length && !isLoading" :disabled="issues.length === 0" class="dashboard__issues">
     <v-list density="compact">
       <v-list-subheader>Issues</v-list-subheader>
@@ -25,6 +28,7 @@ import Issue from '@/adapters/Issue';
 import { useRoute, useRouter } from 'vue-router';
 import Filter from '@/adapters/Filter';
 import AppFilter from '@/components/AppFilter.vue';
+import TransitionsCountDashboard from '@/components/TransitionsCountDashboard.vue';
 
 const props = defineProps<{
   resourceId: string;
@@ -55,6 +59,7 @@ const loadIssue = (search: Filter): void => {
       isLoading.value = false;
     });
 };
+
 onMounted(() => {
   loadIssue(filter.value);
 });

@@ -1,4 +1,4 @@
-import { Raw } from '@/@types/Raw';
+import { Raw } from '@/@interfaces/Raw';
 import JqlQueryBuilder from '@/adapters/JQLBuilder';
 
 export default class Filter {

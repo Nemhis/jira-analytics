@@ -1,6 +1,6 @@
 import AbstractApi from '@/api/modules/AbstractApi';
 import { AxiosResponse } from 'axios';
-import { Raw } from '@/@types/Raw';
+import { Raw } from '@/@interfaces/Raw';
 
 export default class JiraApi extends AbstractApi {
   search(resourceId: string, params: Raw): Promise<AxiosResponse> {
@@ -13,6 +13,14 @@ export default class JiraApi extends AbstractApi {
 
   getProject(resourceId: string, projectKey: string): Promise<AxiosResponse> {
     return this.api.get(`/${resourceId}/rest/api/3/project/${projectKey}`);
+  }
+
+  getChangelog(resourceId: string, issueKey: string): Promise<AxiosResponse> {
+    return this.api.get(`/${resourceId}/rest/api/3/issue/${issueKey}/changelog`);
+  }
+
+  getWorkflowStatuses(resourceId: string): Promise<AxiosResponse> {
+    return this.api.get(`/${resourceId}/rest/api/3/status`);
   }
 
   getUsers(resourceId: string, query: string): Promise<AxiosResponse> {

@@ -1,4 +1,4 @@
-import { Raw } from '@/@types/Raw';
+import { Raw } from '@/@interfaces/Raw';
 
 interface BoardField {
   id: number | null;
