@@ -132,7 +132,7 @@ import User from '@/adapters/User';
 import Sprint from '@/adapters/Sprint';
 import Board from '@/adapters/Board';
 import { AxiosError } from 'axios';
-import { Raw } from '@/@types/Raw';
+import { Raw } from '@/@interfaces/Raw';
 
 const props = defineProps<{
   filter: Filter;

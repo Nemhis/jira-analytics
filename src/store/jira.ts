@@ -11,6 +11,8 @@ import User from '@/adapters/User';
 import Sprint from '@/adapters/Sprint';
 import Board from '@/adapters/Board';
 
+const DEFAULT_MAX_RESULTS = 150;
+
 export const useJiraStore = defineStore('jira', {
   state: () => ({
     workflowStatuses: {} as Record<number, WorkflowStatus>,
@@ -18,7 +20,12 @@ export const useJiraStore = defineStore('jira', {
   getters: {},
   actions: {
     search(resourceId: string, params: Filter): Promise<Issue[]> {
-      const jql = Filter.toJQL(params) ? { jql: Filter.toJQL(params) } : {};
+      const jql = Filter.toJQL(params)
+        ? {
+            jql: Filter.toJQL(params),
+            maxResults: DEFAULT_MAX_RESULTS,
+          }
+        : {};
 
       return this.$api.jira.search(resourceId, jql).then(({ data }: AxiosResponse) => {
         return Array.isArray(data.issues) ? data.issues.map((raw: Raw) => Issue.fromRaw(raw)) : [];
