@@ -1,5 +1,19 @@
 <template>
   <div style="padding: 20px 50px">
+    <v-autocomplete
+      v-model="fromStatus"
+      :items="statuses"
+      :loading="statusesLoading"
+      item-title="name"
+      item-value="id"
+      label="From status"
+      hide-details="auto"
+      outlined
+      dense
+      clearable
+      multiple
+    />
+
     <bar-chart
       :chart-data="total"
       :options="{
@@ -26,8 +40,11 @@ import { useJiraStore } from '@/store/jira';
 import { computed, defineProps, onMounted, ref, watch } from 'vue';
 import { Chart, BarController, CategoryScale, LinearScale, BarElement, Title } from 'chart.js';
 import { BarChart } from 'vue-chart-3';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { useTheme } from 'vuetify';
+import WorkflowStatus from '@/adapters/WorkflowStatus';
 
-Chart.register(BarController, CategoryScale, LinearScale, BarElement, Title);
+Chart.register(BarController, CategoryScale, LinearScale, BarElement, Title, ChartDataLabels);
 
 const props = defineProps<{
   resourceId: string;
@@ -35,7 +52,14 @@ const props = defineProps<{
   loading: boolean;
 }>();
 const jiraStore = useJiraStore();
+const theme = useTheme();
 const counts = ref<TransitionCount[]>([]);
+
+const statusesLoading = ref<boolean>(false);
+const statuses = ref<WorkflowStatus[]>([]);
+const fromStatus = ref<WorkflowStatus | null>(null);
+const toStatus = ref<WorkflowStatus | null>(null);
+
 const total = computed(() => {
   const aggregated = serviceProvider.changelogService.aggregateTransitionsCount(counts.value);
   aggregated.sort((a: TransitionCount, b: TransitionCount): number => a.from - b.from);
@@ -46,13 +70,21 @@ const total = computed(() => {
     datasets: [
       {
         data: aggregated.map(({ count }: TransitionCount) => count),
+        datalabels: {
+          color: theme.current.value.colors.background,
+        },
       },
     ],
   };
 });
 
 onMounted(() => {
-  jiraStore.loadWorkflowStatuses(props.resourceId).then();
+  statusesLoading.value = true;
+
+  jiraStore
+    .searchStatusesPaginated()
+    .then((workflowStatuses: WorkflowStatus[]) => (statuses.value = workflowStatuses))
+    .finally(() => (statusesLoading.value = false));
 });
 
 const loadChangelogs = () => {
@@ -63,7 +95,7 @@ const loadChangelogs = () => {
   }
 
   props.issues.forEach((issue: Issue) => {
-    jiraStore.loadChangelog(props.resourceId, issue.key).then((list: PaginatedList<Changelog>) => {
+    jiraStore.loadChangelog(issue.key).then((list: PaginatedList<Changelog>) => {
       const loadedCounts: TransitionCount[] = serviceProvider.changelogService.calcTransitionsCount(list.values);
 
       if (loadedCounts.length) {

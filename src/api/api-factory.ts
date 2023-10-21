@@ -17,11 +17,11 @@ export const createProxy = (): AxiosInstance => {
   return api;
 };
 
-export const createJira = (): AxiosInstance => {
+export const createJira = (resourceId?: string): AxiosInstance => {
   const token = TokenStorage.get();
 
   const api = axios.create({
-    baseURL: JIRA_API_URL,
+    baseURL: resourceId ? `${JIRA_API_URL}/${resourceId}` : JIRA_API_URL,
     timeout: TIMEOUT,
     withCredentials: true,
     headers: token ? { Authorization: `Bearer ${token}` } : {},

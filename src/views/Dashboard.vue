@@ -22,13 +22,14 @@
 </template>
 
 <script lang="ts" setup>
-import { Ref, ref, defineProps, toRefs, onMounted } from 'vue';
+import { Ref, ref, defineProps, toRefs, onMounted, onBeforeMount } from 'vue';
 import { useJiraStore } from '@/store/jira';
 import Issue from '@/adapters/Issue';
 import { useRoute, useRouter } from 'vue-router';
 import Filter from '@/adapters/Filter';
 import AppFilter from '@/components/AppFilter.vue';
 import TransitionsCountDashboard from '@/components/TransitionsCountDashboard.vue';
+import api from '@/api';
 
 const props = defineProps<{
   resourceId: string;
@@ -41,6 +42,10 @@ const issues: Ref<Issue[]> = ref([]);
 let filter: Ref<Filter> = ref(new Filter(route.query.value));
 const isLoading: Ref<boolean> = ref(false);
 
+onBeforeMount(() => {
+  api.jira.setResource(props.resourceId);
+});
+
 const handleFilterChange = (changedFilter: Filter): void => {
   filter.value = changedFilter;
   router.push({ query: { ...Filter.toRaw(filter.value) } }).then(() => {
@@ -51,7 +56,7 @@ const handleFilterChange = (changedFilter: Filter): void => {
 const loadIssue = (search: Filter): void => {
   isLoading.value = true;
   jiraStore
-    .search(props.resourceId, search)
+    .search(search)
     .then((loadedIssues: Issue[]) => {
       issues.value = loadedIssues;
     })

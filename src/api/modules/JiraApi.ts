@@ -1,37 +1,42 @@
 import AbstractApi from '@/api/modules/AbstractApi';
 import { AxiosResponse } from 'axios';
 import { Raw } from '@/@interfaces/Raw';
+import { createJira } from '@/api/api-factory';
 
 export default class JiraApi extends AbstractApi {
-  search(resourceId: string, params: Raw): Promise<AxiosResponse> {
-    return this.api.get(`/${resourceId}/rest/api/3/search`, { params });
+  setResource(resourceId: string): void {
+    this.api = createJira(resourceId);
   }
 
-  getProjects(resourceId: string): Promise<AxiosResponse> {
-    return this.api.get(`/${resourceId}/rest/api/3/project/search`);
+  search(params: Raw): Promise<AxiosResponse> {
+    return this.api.get('/rest/api/3/search', { params });
   }
 
-  getProject(resourceId: string, projectKey: string): Promise<AxiosResponse> {
-    return this.api.get(`/${resourceId}/rest/api/3/project/${projectKey}`);
+  getProjects(): Promise<AxiosResponse> {
+    return this.api.get('/rest/api/3/project/search');
   }
 
-  getChangelog(resourceId: string, issueKey: string): Promise<AxiosResponse> {
-    return this.api.get(`/${resourceId}/rest/api/3/issue/${issueKey}/changelog`);
+  getProject(projectKey: string): Promise<AxiosResponse> {
+    return this.api.get(`/rest/api/3/project/${projectKey}`);
   }
 
-  getWorkflowStatuses(resourceId: string): Promise<AxiosResponse> {
-    return this.api.get(`/${resourceId}/rest/api/3/status`);
+  getChangelog(issueKey: string): Promise<AxiosResponse> {
+    return this.api.get(`/rest/api/3/issue/${issueKey}/changelog`);
   }
 
-  getUsers(resourceId: string, query: string): Promise<AxiosResponse> {
-    return this.api.get(`/${resourceId}/rest/api/3/user/search?includeInactive=false&maxResults=30&query=${query}`);
+  getWorkflowStatuses(): Promise<AxiosResponse> {
+    return this.api.get('/rest/api/3/statuses');
   }
 
-  getBoards(resourceId: string, projectId: number | null): Promise<AxiosResponse> {
-    return this.api.get(`/${resourceId}/rest/agile/1.0/board?${projectId ? `projectKeyOrId=${projectId}` : ''}`);
+  getUsers(query: string): Promise<AxiosResponse> {
+    return this.api.get(`/rest/api/3/user/search?includeInactive=false&maxResults=30&query=${query}`);
   }
 
-  getSprints(resourceId: string, boardId: number | null): Promise<AxiosResponse> {
-    return this.api.get(`/${resourceId}/rest/agile/1.0/board/${boardId}/sprint`);
+  getBoards(projectId: number | null): Promise<AxiosResponse> {
+    return this.api.get(`/rest/agile/1.0/board?${projectId ? `projectKeyOrId=${projectId}` : ''}`);
+  }
+
+  getSprints(boardId: number | null): Promise<AxiosResponse> {
+    return this.api.get(`/rest/agile/1.0/board/${boardId}/sprint`);
   }
 }

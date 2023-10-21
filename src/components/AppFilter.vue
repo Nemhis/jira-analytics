@@ -154,7 +154,7 @@ let issues: Ref<Issue[]> = ref([]);
 
 const getBoards = (): void => {
   jiraStore
-    .getBoards(resourceId, draftFilter.projectId)
+    .getBoards(draftFilter.projectId)
     .then((loadBoards: Board[]) => {
       boards.value = toArray(loadBoards['values']);
       isLoading.value = true;
@@ -163,11 +163,22 @@ const getBoards = (): void => {
 };
 
 const getSprints = (): void => {
+  isLoading.value = true;
+
   jiraStore
-    .getSprints(resourceId, draftFilter.boardId)
-    .then((loadSprints: Sprint[]) => {
-      sprints.value = toArray(loadSprints['values']);
-      isLoading.value = true;
+    .getSprints(draftFilter.boardId)
+    .then((loadedSprints: Sprint[]) => {
+      sprints.value = loadedSprints.sort((a: Sprint, b: Sprint) => {
+        if (a.endDate && b.endDate) {
+          return b.endDate.valueOf() - a.endDate.valueOf();
+        } else if (a.endDate) {
+          return -1;
+        } else if (b.endDate) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
     })
     .catch(({ response }: AxiosError) => {
       error.value = response ? (response.data as Raw) : null;
@@ -180,7 +191,7 @@ const getSprints = (): void => {
 const loadIssue = (search: Filter): void => {
   isLoading.value = true;
   jiraStore
-    .search(props.resourceId, search)
+    .search(search)
     .then((loadedIssues: Issue[]) => {
       issues.value = loadedIssues;
     })
@@ -190,7 +201,7 @@ const loadIssue = (search: Filter): void => {
 };
 const getUsers = (userName: string): void => {
   jiraStore
-    .getUsers(resourceId, userName)
+    .getUsers(userName)
     .then((loadUsers: User[]) => {
       users.value = loadUsers;
       isLoading.value = true;
@@ -280,7 +291,7 @@ watch(
 
 onMounted(() => {
   jiraStore
-    .getProjects(resourceId)
+    .getProjects()
     .then((loadProjects: Project[]) => {
       projects.value = loadProjects;
       isLoading.value = true;
