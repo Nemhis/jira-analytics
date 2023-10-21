@@ -1,5 +1,6 @@
 import { App } from 'vue';
 import ChangelogService from '@/services/ChangelogService';
+import StatusService from '@/services/StatusService';
 
 declare module '@vue/runtime-core' {
   export interface ComponentCustomProperties {
@@ -9,6 +10,7 @@ declare module '@vue/runtime-core' {
 
 export const serviceProvider = {
   changelogService: new ChangelogService(),
+  statusService: new StatusService(),
 };
 
 const createServices = (): { install: (app: App) => void } => {

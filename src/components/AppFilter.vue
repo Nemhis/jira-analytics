@@ -123,7 +123,6 @@
 <script lang="ts" setup>
 import Project from '@/adapters/Project';
 import { Ref, ref, onMounted, defineProps, defineEmits, watch } from 'vue';
-import { useRoute } from 'vue-router';
 import { useJiraStore } from '@/store/jira';
 import Filter from '@/adapters/Filter';
 import _, { toArray } from 'lodash';
@@ -136,14 +135,11 @@ import { Raw } from '@/@interfaces/Raw';
 
 const props = defineProps<{
   filter: Filter;
-  resourceId: string;
 }>();
 
 const emit = defineEmits(['submit']);
 let draftFilter = _.cloneDeep(props.filter);
-const route = useRoute();
 const jiraStore = useJiraStore();
-const resourceId = route.params.resourceId as string;
 const projects: Ref<Project[]> = ref([]);
 const isLoading: Ref<boolean> = ref(false);
 const users: Ref<User[]> = ref([]);
@@ -303,11 +299,12 @@ onMounted(() => {
   if (draftFilter.projectId) {
     getBoards();
   }
+
   if (draftFilter.boardId) {
     getSprints();
   }
-  loadIssue(draftFilter);
 
+  loadIssue(draftFilter);
   getUsers('');
 });
 </script>

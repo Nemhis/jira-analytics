@@ -50,6 +50,7 @@ const props = defineProps<{
   resourceId: string;
   issues: Issue[];
   loading: boolean;
+  projectId?: number | null;
 }>();
 const jiraStore = useJiraStore();
 const theme = useTheme();
@@ -83,7 +84,11 @@ onMounted(() => {
 
   jiraStore
     .searchStatusesPaginated()
-    .then((workflowStatuses: WorkflowStatus[]) => (statuses.value = workflowStatuses))
+    .then((workflowStatuses: WorkflowStatus[]) => {
+      statuses.value = props.projectId
+        ? serviceProvider.statusService.filterByProject(props.projectId, workflowStatuses)
+        : workflowStatuses;
+    })
     .finally(() => (statusesLoading.value = false));
 });
 
@@ -115,6 +120,19 @@ watch(
     if (loading === false) {
       loadChangelogs();
     }
+  },
+  { immediate: true }
+);
+
+watch(
+  () => props.projectId,
+  (projectId?: number | null): void => {
+    jiraStore.searchStatusesPaginated().then((workflowStatuses: WorkflowStatus[]) => {
+      console.log(workflowStatuses);
+      statuses.value = projectId
+        ? serviceProvider.statusService.filterByProject(projectId, workflowStatuses)
+        : workflowStatuses;
+    });
   },
   { immediate: true }
 );

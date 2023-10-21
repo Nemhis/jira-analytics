@@ -7,7 +7,12 @@
     class="dashboard"
   />
 
-  <transitions-count-dashboard :loading="isLoading" :issues="issues" :resource-id="props.resourceId" />
+  <transitions-count-dashboard
+    :loading="isLoading"
+    :issues="issues"
+    :resource-id="props.resourceId"
+    :project-id="filter.projectId"
+  />
 
   <v-card v-if="issues.length && !isLoading" :disabled="issues.length === 0" class="dashboard__issues">
     <v-list density="compact">

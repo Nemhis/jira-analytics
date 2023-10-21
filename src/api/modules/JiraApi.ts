@@ -24,8 +24,8 @@ export default class JiraApi extends AbstractApi {
     return this.api.get(`/rest/api/3/issue/${issueKey}/changelog`);
   }
 
-  getWorkflowStatuses(): Promise<AxiosResponse> {
-    return this.api.get('/rest/api/3/statuses');
+  searchStatusesPaginated(): Promise<AxiosResponse> {
+    return this.api.get('/rest/api/3/statuses/search', { params: { expand: 'usages' } });
   }
 
   getUsers(query: string): Promise<AxiosResponse> {

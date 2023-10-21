@@ -1,8 +1,7 @@
 import WorkflowStatus from '@/adapters/WorkflowStatus';
-import Project from '@/adapters/Project';
 
 export default class StatusService {
-  filterByProject(project: Project, statuses: WorkflowStatus[]) {
-    return Array.from(statuses.values());
+  filterByProject(projectId: number, statuses: WorkflowStatus[]) {
+    return statuses.filter((status: WorkflowStatus) => status.usages.some((usage) => usage.project.id === projectId));
   }
 }

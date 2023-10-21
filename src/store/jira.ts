@@ -73,9 +73,9 @@ export const useJiraStore = defineStore('jira', {
 
     searchStatusesPaginated(): Promise<WorkflowStatus[]> {
       return Object.keys(this.$state.workflowStatuses).length === 0
-        ? this.$api.jira.getWorkflowStatuses().then(({ data }: AxiosResponse) => {
-            const statuses: WorkflowStatus[] = Array.isArray(data)
-              ? data.map((raw: Raw) => WorkflowStatus.fromRaw(raw))
+        ? this.$api.jira.searchStatusesPaginated().then(({ data }: AxiosResponse) => {
+            const statuses: WorkflowStatus[] = Array.isArray(data?.values)
+              ? data.values.map((raw: Raw) => WorkflowStatus.fromRaw(raw))
               : [];
 
             statuses.forEach((status: WorkflowStatus) => {
