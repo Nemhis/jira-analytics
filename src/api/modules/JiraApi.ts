@@ -1,7 +1,7 @@
-import { Raw } from '@/@interfaces/Raw';
 import { createJira } from '@/api/api-factory';
 import AbstractApi from '@/api/modules/AbstractApi';
 import { AxiosResponse } from 'axios';
+import { Raw } from '@/@interfaces/Raw';
 
 export default class JiraApi extends AbstractApi {
   setResource(resourceId: string): void {

@@ -12,11 +12,11 @@
 </template>
 
 <script lang="ts" setup>
-import { Raw } from '@/@interfaces/Raw';
 import TokenStorage from '@/TokenStorage';
 import { AxiosError } from 'axios';
 import { Ref, ref, onMounted } from 'vue';
 import { LocationQuery, useRouter } from 'vue-router';
+import { Raw } from '@/@interfaces/Raw';
 import { useUserStore } from '@/store/user';
 import { Routes } from '@/router/routes';
 

@@ -121,10 +121,10 @@
 </template>
 
 <script lang="ts" setup>
-import { Raw } from '@/@interfaces/Raw';
 import { AxiosError } from 'axios';
 import _, { toArray } from 'lodash';
 import { Ref, ref, onMounted, defineEmits, watch } from 'vue';
+import { Raw } from '@/@interfaces/Raw';
 import Board from '@/adapters/Board';
 import Filter from '@/adapters/Filter';
 import Issue from '@/adapters/Issue';

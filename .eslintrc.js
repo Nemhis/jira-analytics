@@ -26,10 +26,12 @@ module.exports = {
         printWidth: 120,
         endOfLine: 'auto',
         importOrder: [
-          '^@/utils/(.*)$',
+          '^@/plugins/(.*)$',
           '^@/@types/(.*)$',
+          '^@/@interfaces/(.*)$',
           '^@/adapters/(.*)$',
           '^@/enums/(.*)$',
+          '^@/utils/(.*)$',
           '^@/config',
           '^@/const',
           '^@/store/(.*)$',

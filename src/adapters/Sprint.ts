@@ -1,5 +1,5 @@
-import { Raw } from '@/@interfaces/Raw';
 import dayjs from 'dayjs';
+import { Raw } from '@/@interfaces/Raw';
 
 export default class Sprint {
   id: number | null;

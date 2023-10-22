@@ -1,6 +1,6 @@
-import { Raw } from '@/@interfaces/Raw';
 import { AxiosResponse } from 'axios';
 import { defineStore } from 'pinia';
+import { Raw } from '@/@interfaces/Raw';
 import Board from '@/adapters/Board';
 import Changelog from '@/adapters/Changelog';
 import Filter from '@/adapters/Filter';

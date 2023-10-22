@@ -25,12 +25,12 @@
 
 <script lang="ts" setup>
 import { TransitionCount } from '@/interfaces/TransitionCount';
-import { serviceProvider } from '@/plugins/services';
 import { Chart, BarController, CategoryScale, LinearScale, BarElement, Title } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { computed, onMounted, ref, watch } from 'vue';
 import { BarChart } from 'vue-chart-3';
 import { useTheme } from 'vuetify';
+import { serviceProvider } from '@/plugins/services';
 import Changelog from '@/adapters/Changelog';
 import Issue from '@/adapters/Issue';
 import PaginatedList from '@/adapters/PaginatedList';

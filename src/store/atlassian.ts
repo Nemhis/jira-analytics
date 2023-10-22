@@ -1,6 +1,6 @@
-import { Raw } from '@/@interfaces/Raw';
 import { AxiosResponse } from 'axios';
 import { defineStore } from 'pinia';
+import { Raw } from '@/@interfaces/Raw';
 import AccessibleResource from '@/adapters/AccessibleResource';
 
 export const useAtlassianStore = defineStore('atlassian', {
