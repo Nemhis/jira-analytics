@@ -8,9 +8,9 @@
         ref="input"
         :value="resource.id"
         :to="{ ...Routes.DASHBOARD, params: { resourceId: resource.id } }"
-        active-color="primary"
+        color="primary"
       >
-        <template v-slot:prepend>
+        <template #prepend>
           <v-avatar :image="resource.avatarUrl" />
         </template>
         <v-list-item-title>{{ resource.name }}</v-list-item-title>

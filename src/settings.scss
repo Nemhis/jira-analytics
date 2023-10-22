@@ -1,4 +1,4 @@
-@use '~@/styles/colors';
+@use './styles/colors';
 
 @use 'vuetify/settings' with (
   $app-bar-background: colors.$beige,

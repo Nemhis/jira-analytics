@@ -5,7 +5,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: Routes.LOGIN.path,
     name: Routes.LOGIN.name,
-    component: () => import('../views/Login.vue'),
+    component: () => import('@/views/Login.vue'),
     props: (route: RouteLocation) => ({ query: route.query }),
     meta: {
       title: 'Login',
@@ -14,7 +14,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: Routes.RESOURCES.path,
     name: Routes.RESOURCES.name,
-    component: () => import('../views/Resources.vue'),
+    component: () => import('@/views/Resources.vue'),
     props: (route: RouteLocation) => ({ query: route.query }),
     meta: {
       title: 'Resources',
@@ -23,7 +23,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: Routes.DASHBOARD.path,
     name: Routes.DASHBOARD.name,
-    component: () => import('../views/Dashboard.vue'),
+    component: () => import('@/views/Dashboard.vue'),
     props: true,
     meta: {
       title: 'Dashboard',
@@ -36,7 +36,7 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
 

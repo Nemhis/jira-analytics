@@ -1,7 +1,7 @@
 <template>
   <app-filter
     :filter="filter"
-    :resourceId="resourceId"
+    :resource-id="resourceId"
     :issues="issues"
     @submit="handleFilterChange"
     class="dashboard"

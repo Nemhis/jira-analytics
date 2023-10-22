@@ -1,5 +1,4 @@
 module.exports = {
-  processors: ['stylelint-processor-html'],
   extends: ['stylelint-config-standard-scss', 'stylelint-config-prettier-scss'],
   ignoreFiles: ['src/styles/normalize.scss'],
   rules: {
@@ -7,4 +6,10 @@ module.exports = {
     'selector-class-pattern': null,
     'no-descending-specificity': null,
   },
+  overrides: [
+    {
+      "files": ["**/*.vue"],
+      "customSyntax": "postcss-html"
+    },
+  ]
 };

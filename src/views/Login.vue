@@ -2,7 +2,7 @@
   <div class="login">
     <v-btn :href="$utils.url.buildAuthUrl().toString()" variant="plain" class="login__btn">
       <div class="login__btn-items">
-        <img v-if="!isLoading" src="../../public/img/icons/atlassian-logo.png" alt="Atlassian icon" />
+        <img v-if="!isLoading" src="/img/icons/atlassian-logo.png" alt="Atlassian icon" />
         <v-progress-circular v-if="isLoading" />
         <span class="login__btn-title">Login via atlassian</span>
       </div>
@@ -45,7 +45,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-@import '~@/styles/colors';
+@import '../styles/colors';
 
 .login {
   position: relative;

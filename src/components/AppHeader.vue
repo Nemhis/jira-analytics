@@ -9,7 +9,7 @@
       <v-card>
         <v-layout>
           <v-app-bar density="compact" class="app-header__menu">
-            <template v-slot:prepend>
+            <template #prepend>
               <v-app-bar-nav-icon @click="drawerIsActive = !drawerIsActive" />
             </template>
             <v-app-bar-title>{{ title }}</v-app-bar-title>
@@ -41,7 +41,7 @@
           <v-btn :to="Routes.RESOURCES">Resources</v-btn>
           <v-spacer />
           <v-menu open-on-hover>
-            <template v-slot:activator="{ props: menu }">
+            <template #activator="{ props: menu }">
               <v-list bg-color="transparent">
                 <v-list-item
                   v-bind="menu"
@@ -84,8 +84,8 @@ const logOut = (): void => {
 </script>
 
 <style lang="scss">
-@import '~@/styles/colors';
-@import '~@/styles/vars';
+@import '../styles/colors';
+@import '../styles/vars';
 
 .app-header {
   position: relative;

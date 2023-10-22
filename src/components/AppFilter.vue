@@ -5,17 +5,17 @@
       :items="projects"
       :menu-props="{ maxHeight: 300, maxWidth: 300 }"
       :loading="isLoading"
-      @update:modelValue="handleProjectChange"
+      @update:model-value="handleProjectChange"
       item-title="name"
       item-value="id"
       label="Project"
       hide-details="auto"
       class="app-filter__input"
+      clearable
       outlined
       dense
-      clearable
     >
-      <template v-slot:item="{ props, item }">
+      <template #item="{ props, item }">
         <v-list-item v-bind="props" :prepend-avatar="item.raw.avatarUrls.size16">
           <v-tooltip :text="item.raw.name" activator="parent" />
         </v-list-item>
@@ -28,7 +28,7 @@
       :menu-props="{ maxHeight: 300, maxWidth: 300 }"
       :disabled="boards.length < 1"
       :loading="isLoading"
-      @update:modelValue="handleBoardChange"
+      @update:model-value="handleBoardChange"
       item-title="name"
       item-value="id"
       label="Board"
@@ -38,7 +38,7 @@
       dense
       clearable
     >
-      <template v-slot:item="{ props, item }">
+      <template #item="{ props, item }">
         <v-list-item v-bind="props">
           <v-tooltip :text="item.raw.name" activator="parent" />
         </v-list-item>
@@ -51,18 +51,18 @@
       :menu-props="{ maxHeight: 300, maxWidth: 300 }"
       :disabled="sprints.length < 1"
       :loading="isLoading"
-      @update:modelValue="handleSprintChange"
+      @update:model-value="handleSprintChange"
       item-title="name"
       item-value="id"
       label="Sprint"
       hide-details="auto"
       class="app-filter__input"
-      outlined
-      dense
       clearable
       multiple
+      outlined
+      dense
     >
-      <template v-slot:item="{ props, item }">
+      <template #item="{ props, item }">
         <v-list-item v-bind="props">
           <v-tooltip :text="item.raw.name" activator="parent" />
         </v-list-item>
@@ -75,18 +75,18 @@
       :menu-props="{ maxHeight: 300, maxWidth: 300 }"
       :disabled="!draftFilter.projectId"
       :loading="isLoading"
-      @update:modelValue="handleIssueChange"
+      @update:model-value="handleIssueChange"
       item-title="key"
       item-value="id"
       label="Issues"
       hide-details="auto"
       class="app-filter__input"
-      outlined
-      dense
       clearable
       multiple
+      outlined
+      dense
     >
-      <template v-slot:item="{ props, item }">
+      <template #item="{ props, item }">
         <v-list-item v-bind="props">
           <v-tooltip :text="item.raw.fields.summary" activator="parent" />
         </v-list-item>
@@ -99,19 +99,19 @@
       :menu-props="{ maxHeight: 300, maxWidth: 300 }"
       :disabled="!draftFilter.projectId"
       :loading="isLoading"
-      @update:modelValue="handleUserChange"
+      @update:model-value="handleUserChange"
       @input="getUsers($event.srcElement.value)"
       item-title="displayName"
       item-value="accountId"
       label="Implementer"
       hide-details="auto"
       class="app-filter__input"
-      outlined
-      dense
       clearable
       multiple
+      outlined
+      dense
     >
-      <template v-slot:item="{ props, item }">
+      <template #item="{ props, item }">
         <v-list-item v-bind="props" :prepend-avatar="item.raw.avatarUrls.size16">
           <v-tooltip :text="item.raw.displayName" activator="parent" />
         </v-list-item>
@@ -122,8 +122,9 @@
 
 <script lang="ts" setup>
 import { AxiosError } from 'axios';
-import _, { toArray } from 'lodash';
-import { Ref, ref, onMounted, defineEmits, watch } from 'vue';
+import cloneDeep from 'lodash-es/cloneDeep';
+import toArray from 'lodash-es/toArray';
+import { Ref, ref, onMounted, watch } from 'vue';
 import { Raw } from '@/@interfaces/Raw';
 import Board from '@/adapters/Board';
 import Filter from '@/adapters/Filter';
@@ -138,7 +139,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits(['submit']);
-let draftFilter = _.cloneDeep(props.filter);
+let draftFilter = cloneDeep(props.filter);
 const jiraStore = useJiraStore();
 const projects: Ref<Project[]> = ref([]);
 const isLoading: Ref<boolean> = ref(false);
@@ -280,7 +281,7 @@ const handleSprintChange = (id: Array<number> | null): void => {
 watch(
   () => props.filter,
   () => {
-    draftFilter = _.cloneDeep(props.filter);
+    draftFilter = cloneDeep(props.filter);
   },
   { deep: true },
 );
@@ -308,7 +309,7 @@ onMounted(() => {
   getUsers('');
 });
 </script>
-<style>
+<style lang="scss">
 .app-filter {
   margin: 0 10px;
   display: grid;
