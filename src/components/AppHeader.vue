@@ -67,7 +67,7 @@
 import { useUserStore } from '@/store/user';
 import { Routes } from '@/router/routes';
 import Router from '@/router';
-import { defineProps, ref } from 'vue';
+import { ref } from 'vue';
 import { useDisplay } from 'vuetify';
 import User from '@/adapters/User';
 

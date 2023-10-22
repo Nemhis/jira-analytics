@@ -36,6 +36,27 @@ module.exports = {
       },
     ],
     'vue/multi-word-component-names': 'off',
+    'vue/attributes-order': [
+      'error',
+      {
+        order: [
+          'DEFINITION',
+          'LIST_RENDERING',
+          'CONDITIONALS',
+          'RENDER_MODIFIERS',
+          'GLOBAL',
+          ['UNIQUE', 'SLOT'],
+          'TWO_WAY_BINDING',
+          'OTHER_DIRECTIVES',
+          'ATTR_DYNAMIC',
+          'EVENTS',
+          'ATTR_STATIC',
+          'ATTR_SHORTHAND_BOOL',
+          'CONTENT',
+        ],
+        alphabetical: false,
+      },
+    ],
   },
   overrides: [
     {

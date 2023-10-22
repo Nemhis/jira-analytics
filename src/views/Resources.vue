@@ -5,15 +5,15 @@
       <v-list-item
         v-for="resource in resources"
         :key="resource.id"
+        ref="input"
         :value="resource.id"
         :to="{ ...Routes.DASHBOARD, params: { resourceId: resource.id } }"
         active-color="primary"
-        ref="input"
       >
         <template v-slot:prepend>
           <v-avatar :image="resource.avatarUrl" />
         </template>
-        <v-list-item-title v-text="resource.name" />
+        <v-list-item-title>{{ resource.name }}</v-list-item-title>
         <v-list-item-subtitle>{{ resource.url }}</v-list-item-subtitle>
       </v-list-item>
     </v-list>

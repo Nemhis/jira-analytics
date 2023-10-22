@@ -18,8 +18,8 @@
     <v-list density="compact">
       <v-list-subheader>Issues</v-list-subheader>
       <v-list-item v-for="issue in issues" :key="issue.id" :value="issue.id">
-        <v-list-item-title v-text="issue.fields.summary" />
-        <v-list-item-subtitle v-text="issue.key" />
+        <v-list-item-title>{{ issue.fields.summary }}</v-list-item-title>
+        <v-list-item-subtitle>{{ issue.key }}</v-list-item-subtitle>
       </v-list-item>
     </v-list>
   </v-card>
@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Ref, ref, defineProps, toRefs, onMounted, onBeforeMount } from 'vue';
+import { Ref, ref, toRefs, onMounted, onBeforeMount } from 'vue';
 import { useJiraStore } from '@/store/jira';
 import Issue from '@/adapters/Issue';
 import { useRoute, useRouter } from 'vue-router';
@@ -44,7 +44,7 @@ const router = useRouter();
 const route = toRefs(useRoute());
 const jiraStore = useJiraStore();
 const issues: Ref<Issue[]> = ref([]);
-let filter: Ref<Filter> = ref(new Filter(route.query.value));
+const filter: Ref<Filter> = ref(new Filter(route.query.value));
 const isLoading: Ref<boolean> = ref(false);
 
 onBeforeMount(() => {

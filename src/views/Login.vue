@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Ref, ref, defineProps, onMounted } from 'vue';
+import { Ref, ref, onMounted } from 'vue';
 import { useUserStore } from '@/store/user';
 import { Raw } from '@/@interfaces/Raw';
 import { LocationQuery, useRouter } from 'vue-router';

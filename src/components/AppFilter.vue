@@ -2,9 +2,10 @@
   <div class="app-filter">
     <v-autocomplete
       :model-value="props.filter.projectId"
-      @update:modelValue="handleProjectChange"
       :items="projects"
       :menu-props="{ maxHeight: 300, maxWidth: 300 }"
+      :loading="isLoading"
+      @update:modelValue="handleProjectChange"
       item-title="name"
       item-value="id"
       label="Project"
@@ -13,7 +14,6 @@
       outlined
       dense
       clearable
-      :loading="isLoading"
     >
       <template v-slot:item="{ props, item }">
         <v-list-item v-bind="props" :prepend-avatar="item.raw.avatarUrls.size16">
@@ -24,19 +24,19 @@
 
     <v-autocomplete
       :model-value="props.filter.boardId"
-      @update:modelValue="handleBoardChange"
       :items="boards"
       :menu-props="{ maxHeight: 300, maxWidth: 300 }"
+      :disabled="boards.length < 1"
+      :loading="isLoading"
+      @update:modelValue="handleBoardChange"
       item-title="name"
       item-value="id"
       label="Board"
       hide-details="auto"
       class="app-filter__input"
-      :disabled="boards.length < 1"
       outlined
       dense
       clearable
-      :loading="isLoading"
     >
       <template v-slot:item="{ props, item }">
         <v-list-item v-bind="props">
@@ -47,20 +47,20 @@
 
     <v-autocomplete
       :model-value="props.filter.sprintIds"
-      @update:modelValue="handleSprintChange"
       :items="sprints"
       :menu-props="{ maxHeight: 300, maxWidth: 300 }"
+      :disabled="sprints.length < 1"
+      :loading="isLoading"
+      @update:modelValue="handleSprintChange"
       item-title="name"
       item-value="id"
       label="Sprint"
       hide-details="auto"
       class="app-filter__input"
-      :disabled="sprints.length < 1"
       outlined
       dense
       clearable
       multiple
-      :loading="isLoading"
     >
       <template v-slot:item="{ props, item }">
         <v-list-item v-bind="props">
@@ -71,20 +71,20 @@
 
     <v-autocomplete
       :model-value="props.filter.issueIds"
-      @update:modelValue="handleIssueChange"
       :items="issues"
       :menu-props="{ maxHeight: 300, maxWidth: 300 }"
+      :disabled="!draftFilter.projectId"
+      :loading="isLoading"
+      @update:modelValue="handleIssueChange"
       item-title="key"
       item-value="id"
       label="Issues"
       hide-details="auto"
       class="app-filter__input"
-      :disabled="!draftFilter.projectId"
       outlined
       dense
       clearable
       multiple
-      :loading="isLoading"
     >
       <template v-slot:item="{ props, item }">
         <v-list-item v-bind="props">
@@ -95,21 +95,21 @@
 
     <v-autocomplete
       :model-value="props.filter.implementerIds"
-      @update:modelValue="handleUserChange"
       :items="users"
       :menu-props="{ maxHeight: 300, maxWidth: 300 }"
+      :disabled="!draftFilter.projectId"
+      :loading="isLoading"
+      @update:modelValue="handleUserChange"
+      @input="getUsers($event.srcElement.value)"
       item-title="displayName"
       item-value="accountId"
       label="Implementer"
       hide-details="auto"
       class="app-filter__input"
-      :disabled="!draftFilter.projectId"
       outlined
       dense
       clearable
       multiple
-      :loading="isLoading"
-      @input="getUsers($event.srcElement.value)"
     >
       <template v-slot:item="{ props, item }">
         <v-list-item v-bind="props" :prepend-avatar="item.raw.avatarUrls.size16">
@@ -122,7 +122,7 @@
 
 <script lang="ts" setup>
 import Project from '@/adapters/Project';
-import { Ref, ref, onMounted, defineProps, defineEmits, watch } from 'vue';
+import { Ref, ref, onMounted, defineEmits, watch } from 'vue';
 import { useJiraStore } from '@/store/jira';
 import Filter from '@/adapters/Filter';
 import _, { toArray } from 'lodash';
@@ -143,10 +143,10 @@ const jiraStore = useJiraStore();
 const projects: Ref<Project[]> = ref([]);
 const isLoading: Ref<boolean> = ref(false);
 const users: Ref<User[]> = ref([]);
-let sprints: Ref<Sprint[]> = ref([]);
-let boards: Ref<Board[]> = ref([]);
+const sprints: Ref<Sprint[]> = ref([]);
+const boards: Ref<Board[]> = ref([]);
 const error: Ref<Raw | null> = ref(null);
-let issues: Ref<Issue[]> = ref([]);
+const issues: Ref<Issue[]> = ref([]);
 
 const getBoards = (): void => {
   jiraStore
@@ -282,7 +282,7 @@ watch(
   () => {
     draftFilter = _.cloneDeep(props.filter);
   },
-  { deep: true }
+  { deep: true },
 );
 
 onMounted(() => {

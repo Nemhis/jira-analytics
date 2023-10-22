@@ -30,7 +30,7 @@ import Changelog from '@/adapters/Changelog';
 import { TransitionCount } from '@/interfaces/TransitionCount';
 import { serviceProvider } from '@/plugins/services';
 import { useJiraStore } from '@/store/jira';
-import { computed, defineProps, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { Chart, BarController, CategoryScale, LinearScale, BarElement, Title } from 'chart.js';
 import { BarChart } from 'vue-chart-3';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -52,7 +52,6 @@ const counts = ref<TransitionCount[]>([]);
 const statusesLoading = ref<boolean>(false);
 const statuses = ref<WorkflowStatus[]>([]);
 const fromStatus = ref<WorkflowStatus | null>(null);
-const toStatus = ref<WorkflowStatus | null>(null);
 
 const total = computed(() => {
   const aggregated = serviceProvider.changelog.aggregateTransitionsCount(counts.value);
@@ -114,7 +113,7 @@ watch(
       loadChangelogs();
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 watch(
@@ -126,6 +125,6 @@ watch(
         : workflowStatuses;
     });
   },
-  { immediate: true }
+  { immediate: true },
 );
 </script>
