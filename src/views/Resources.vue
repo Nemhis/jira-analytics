@@ -14,6 +14,7 @@
           <v-avatar :image="resource.avatarUrl" />
         </template>
         <v-list-item-title v-text="resource.name" />
+        <v-list-item-subtitle>{{ resource.url }}</v-list-item-subtitle>
       </v-list-item>
     </v-list>
   </v-card>

@@ -18,13 +18,6 @@
       :chart-data="total"
       :options="{
         backgroundColor: $vuetify.theme.current.colors.primary,
-        plugins: {
-          title: {
-            display: true,
-            text: 'Количество переводов задач по статусам',
-            color: $vuetify.theme.current.colors.secondary,
-          },
-        },
       }"
     />
   </div>
@@ -62,7 +55,7 @@ const fromStatus = ref<WorkflowStatus | null>(null);
 const toStatus = ref<WorkflowStatus | null>(null);
 
 const total = computed(() => {
-  const aggregated = serviceProvider.changelogService.aggregateTransitionsCount(counts.value);
+  const aggregated = serviceProvider.changelog.aggregateTransitionsCount(counts.value);
   aggregated.sort((a: TransitionCount, b: TransitionCount): number => a.from - b.from);
   const getLabel = (counter: TransitionCount) => `${getStatusName(counter.from)} -> ${getStatusName(counter.to)}`;
 
@@ -86,7 +79,7 @@ onMounted(() => {
     .searchStatusesPaginated()
     .then((workflowStatuses: WorkflowStatus[]) => {
       statuses.value = props.projectId
-        ? serviceProvider.statusService.filterByProject(props.projectId, workflowStatuses)
+        ? serviceProvider.status.filterByProject(props.projectId, workflowStatuses)
         : workflowStatuses;
     })
     .finally(() => (statusesLoading.value = false));
@@ -101,7 +94,7 @@ const loadChangelogs = () => {
 
   props.issues.forEach((issue: Issue) => {
     jiraStore.loadChangelog(issue.key).then((list: PaginatedList<Changelog>) => {
-      const loadedCounts: TransitionCount[] = serviceProvider.changelogService.calcTransitionsCount(list.values);
+      const loadedCounts: TransitionCount[] = serviceProvider.changelog.calcTransitionsCount(list.values);
 
       if (loadedCounts.length) {
         counts.value = [...counts.value, ...loadedCounts];
@@ -128,9 +121,8 @@ watch(
   () => props.projectId,
   (projectId?: number | null): void => {
     jiraStore.searchStatusesPaginated().then((workflowStatuses: WorkflowStatus[]) => {
-      console.log(workflowStatuses);
       statuses.value = projectId
-        ? serviceProvider.statusService.filterByProject(projectId, workflowStatuses)
+        ? serviceProvider.status.filterByProject(projectId, workflowStatuses)
         : workflowStatuses;
     });
   },

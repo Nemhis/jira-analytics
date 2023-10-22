@@ -9,8 +9,8 @@ declare module '@vue/runtime-core' {
 }
 
 export const serviceProvider = {
-  changelogService: new ChangelogService(),
-  statusService: new StatusService(),
+  changelog: new ChangelogService(),
+  status: new StatusService(),
 };
 
 const createServices = (): { install: (app: App) => void } => {
