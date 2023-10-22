@@ -1,7 +1,7 @@
+import { TransitionCount } from '@/interfaces/TransitionCount';
+import Changelog from '@/adapters/Changelog';
 import ChangelogItem from '@/adapters/ChangelogItem';
 import { ChangelogItemField } from '@/enums/ChangelogItemField';
-import Changelog from '@/adapters/Changelog';
-import { TransitionCount } from '@/interfaces/TransitionCount';
 
 const buildKey = (from: number, to: number): string => `${from}-${to}`;
 

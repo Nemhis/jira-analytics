@@ -1,7 +1,7 @@
+import { createAtlassian, createJira, createProxy } from '@/api/api-factory';
+import AtlassianApi from '@/api/modules/AtlassianApi';
 import AuthApi from '@/api/modules/AuthApi';
 import JiraApi from '@/api/modules/JiraApi';
-import AtlassianApi from '@/api/modules/AtlassianApi';
-import { createAtlassian, createJira, createProxy } from '@/api/api-factory';
 
 const createAPI = () => ({
   auth: new AuthApi(createProxy()),

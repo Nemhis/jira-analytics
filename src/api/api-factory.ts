@@ -1,7 +1,7 @@
+import TokenStorage from '@/TokenStorage';
+import errorInterceptors from '@/api/error-interceptors';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { ATLASSIAN_API_URL, AUTH_API_URL, JIRA_API_URL } from '@/config';
-import errorInterceptors from '@/api/error-interceptors';
-import TokenStorage from '@/TokenStorage';
 
 const TIMEOUT = 10000;
 

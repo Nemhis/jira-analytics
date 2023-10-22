@@ -27,14 +27,14 @@
 </template>
 
 <script lang="ts" setup>
+import api from '@/api';
 import { Ref, ref, toRefs, onMounted, onBeforeMount } from 'vue';
-import { useJiraStore } from '@/store/jira';
-import Issue from '@/adapters/Issue';
 import { useRoute, useRouter } from 'vue-router';
 import Filter from '@/adapters/Filter';
+import Issue from '@/adapters/Issue';
+import { useJiraStore } from '@/store/jira';
 import AppFilter from '@/components/AppFilter.vue';
 import TransitionsCountDashboard from '@/components/TransitionsCountDashboard.vue';
-import api from '@/api';
 
 const props = defineProps<{
   resourceId: string;

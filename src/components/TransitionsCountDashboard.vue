@@ -24,18 +24,18 @@
 </template>
 
 <script lang="ts" setup>
-import Issue from '@/adapters/Issue';
-import PaginatedList from '@/adapters/PaginatedList';
-import Changelog from '@/adapters/Changelog';
 import { TransitionCount } from '@/interfaces/TransitionCount';
 import { serviceProvider } from '@/plugins/services';
-import { useJiraStore } from '@/store/jira';
-import { computed, onMounted, ref, watch } from 'vue';
 import { Chart, BarController, CategoryScale, LinearScale, BarElement, Title } from 'chart.js';
-import { BarChart } from 'vue-chart-3';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { computed, onMounted, ref, watch } from 'vue';
+import { BarChart } from 'vue-chart-3';
 import { useTheme } from 'vuetify';
+import Changelog from '@/adapters/Changelog';
+import Issue from '@/adapters/Issue';
+import PaginatedList from '@/adapters/PaginatedList';
 import WorkflowStatus from '@/adapters/WorkflowStatus';
+import { useJiraStore } from '@/store/jira';
 
 Chart.register(BarController, CategoryScale, LinearScale, BarElement, Title, ChartDataLabels);
 

@@ -22,8 +22,8 @@
 
 <script lang="ts" setup>
 import { Ref, ref, onMounted } from 'vue';
-import { useAtlassianStore } from '@/store/atlassian';
 import AccessibleResource from '@/adapters/AccessibleResource';
+import { useAtlassianStore } from '@/store/atlassian';
 import { Routes } from '@/router/routes';
 
 const atlassianStore = useAtlassianStore();

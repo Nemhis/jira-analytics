@@ -12,11 +12,35 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2020,
   },
+  // parser: '@typescript-eslint/parser',
+  // plugins: ['@typescript-eslint'],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     quotes: ['error', 'single'],
-    'prettier/prettier': ['error', { singleQuote: true, printWidth: 120, endOfLine: 'auto' }],
+    'prettier/prettier': [
+      'error',
+      {
+        plugins: ['@trivago/prettier-plugin-sort-imports'],
+        singleQuote: true,
+        printWidth: 120,
+        endOfLine: 'auto',
+        importOrder: [
+          '^@/utils/(.*)$',
+          '^@/@types/(.*)$',
+          '^@/adapters/(.*)$',
+          '^@/enums/(.*)$',
+          '^@/config',
+          '^@/const',
+          '^@/store/(.*)$',
+          '^@/router/(.*)$',
+          '^@/assets/(.*)$',
+          '^@/composables/(.*)$',
+          '^@/components/(.*)$',
+          '^[./]',
+        ],
+      },
+    ],
     'vue/html-self-closing': [
       'error',
       {

@@ -4,11 +4,11 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
-import AppHeader from '@/components/AppHeader.vue';
-import { useUserStore } from '@/store/user';
 import TokenStorage from '@/TokenStorage';
 import { storeToRefs } from 'pinia';
+import { onMounted } from 'vue';
+import { useUserStore } from '@/store/user';
+import AppHeader from '@/components/AppHeader.vue';
 
 const userStore = useUserStore();
 const { user } = storeToRefs(useUserStore());

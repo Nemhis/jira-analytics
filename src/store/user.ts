@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia';
-import { AxiosResponse } from 'axios';
-import User from '@/adapters/User';
 import TokenStorage from '@/TokenStorage';
+import { AxiosResponse } from 'axios';
+import { defineStore } from 'pinia';
+import User from '@/adapters/User';
 
 export const useUserStore = defineStore('user', {
   state: () => ({

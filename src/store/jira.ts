@@ -1,15 +1,15 @@
-import { defineStore } from 'pinia';
-import { AxiosResponse } from 'axios';
-import Issue from '@/adapters/Issue';
 import { Raw } from '@/@interfaces/Raw';
-import Project from '@/adapters/Project';
-import Filter from '@/adapters/Filter';
-import PaginatedList from '@/adapters/PaginatedList';
-import Changelog from '@/adapters/Changelog';
-import WorkflowStatus from '@/adapters/WorkflowStatus';
-import User from '@/adapters/User';
-import Sprint from '@/adapters/Sprint';
+import { AxiosResponse } from 'axios';
+import { defineStore } from 'pinia';
 import Board from '@/adapters/Board';
+import Changelog from '@/adapters/Changelog';
+import Filter from '@/adapters/Filter';
+import Issue from '@/adapters/Issue';
+import PaginatedList from '@/adapters/PaginatedList';
+import Project from '@/adapters/Project';
+import Sprint from '@/adapters/Sprint';
+import User from '@/adapters/User';
+import WorkflowStatus from '@/adapters/WorkflowStatus';
 
 const DEFAULT_MAX_RESULTS = 150;
 

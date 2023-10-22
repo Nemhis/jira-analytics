@@ -64,12 +64,12 @@
 </template>
 
 <script lang="ts" setup>
-import { useUserStore } from '@/store/user';
-import { Routes } from '@/router/routes';
 import Router from '@/router';
 import { ref } from 'vue';
 import { useDisplay } from 'vuetify';
 import User from '@/adapters/User';
+import { useUserStore } from '@/store/user';
+import { Routes } from '@/router/routes';
 
 const title = 'Jira analytics';
 const { mdAndDown } = useDisplay();

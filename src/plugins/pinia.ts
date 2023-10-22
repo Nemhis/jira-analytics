@@ -1,5 +1,5 @@
-import { createPinia } from 'pinia';
 import API from '@/api';
+import { createPinia } from 'pinia';
 
 declare module 'pinia' {
   export interface PiniaCustomProperties {

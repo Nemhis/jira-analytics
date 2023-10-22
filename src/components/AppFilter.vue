@@ -121,17 +121,17 @@
 </template>
 
 <script lang="ts" setup>
-import Project from '@/adapters/Project';
-import { Ref, ref, onMounted, defineEmits, watch } from 'vue';
-import { useJiraStore } from '@/store/jira';
-import Filter from '@/adapters/Filter';
-import _, { toArray } from 'lodash';
-import Issue from '@/adapters/Issue';
-import User from '@/adapters/User';
-import Sprint from '@/adapters/Sprint';
-import Board from '@/adapters/Board';
-import { AxiosError } from 'axios';
 import { Raw } from '@/@interfaces/Raw';
+import { AxiosError } from 'axios';
+import _, { toArray } from 'lodash';
+import { Ref, ref, onMounted, defineEmits, watch } from 'vue';
+import Board from '@/adapters/Board';
+import Filter from '@/adapters/Filter';
+import Issue from '@/adapters/Issue';
+import Project from '@/adapters/Project';
+import Sprint from '@/adapters/Sprint';
+import User from '@/adapters/User';
+import { useJiraStore } from '@/store/jira';
 
 const props = defineProps<{
   filter: Filter;

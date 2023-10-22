@@ -12,12 +12,12 @@
 </template>
 
 <script lang="ts" setup>
-import { Ref, ref, onMounted } from 'vue';
-import { useUserStore } from '@/store/user';
 import { Raw } from '@/@interfaces/Raw';
-import { LocationQuery, useRouter } from 'vue-router';
-import { AxiosError } from 'axios';
 import TokenStorage from '@/TokenStorage';
+import { AxiosError } from 'axios';
+import { Ref, ref, onMounted } from 'vue';
+import { LocationQuery, useRouter } from 'vue-router';
+import { useUserStore } from '@/store/user';
 import { Routes } from '@/router/routes';
 
 const props = defineProps<{ query: LocationQuery }>();

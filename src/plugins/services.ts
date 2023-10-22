@@ -1,6 +1,6 @@
-import { App } from 'vue';
 import ChangelogService from '@/services/ChangelogService';
 import StatusService from '@/services/StatusService';
+import { App } from 'vue';
 
 declare module '@vue/runtime-core' {
   export interface ComponentCustomProperties {
