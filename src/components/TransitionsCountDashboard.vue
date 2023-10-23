@@ -1,23 +1,41 @@
 <template>
-  <div style="padding: 20px 50px">
-    <v-autocomplete
-      v-model="fromStatus"
-      :items="statuses"
-      :loading="statusesLoading"
-      item-title="name"
-      item-value="id"
-      label="From status"
-      hide-details="auto"
-      outlined
-      dense
-      clearable
-      multiple
-    />
+  <div class="transition-count-dashboard">
+    <p class="transition-count-dashboard__title">Transition counts</p>
+    <div class="transition-count-dashboard__filter">
+      <v-autocomplete
+        v-model="fromStatus"
+        :items="statuses"
+        :loading="statusesLoading"
+        item-title="name"
+        item-value="id"
+        label="From status"
+        hide-details="auto"
+        variant="outlined"
+        return-object
+        clearable
+        dense
+      />
+
+      <v-autocomplete
+        v-model="toStatus"
+        :items="statuses"
+        :loading="statusesLoading"
+        item-title="name"
+        item-value="id"
+        label="To status"
+        hide-details="auto"
+        variant="outlined"
+        return-object
+        clearable
+        dense
+      />
+    </div>
 
     <bar-chart
       :chart-data="total"
       :options="{
         backgroundColor: $vuetify.theme.current.colors.primary,
+        indexAxis: 'y',
       }"
     />
   </div>
@@ -52,9 +70,11 @@ const counts = ref<TransitionCount[]>([]);
 const statusesLoading = ref<boolean>(false);
 const statuses = ref<WorkflowStatus[]>([]);
 const fromStatus = ref<WorkflowStatus | null>(null);
+const toStatus = ref<WorkflowStatus | null>(null);
 
 const total = computed(() => {
-  const aggregated = serviceProvider.changelog.aggregateTransitionsCount(counts.value);
+  const filtered: TransitionCount[] = filterCounters(counts.value);
+  const aggregated = serviceProvider.changelog.aggregateTransitionsCount(filtered);
   aggregated.sort((a: TransitionCount, b: TransitionCount): number => a.from - b.from);
   const getLabel = (counter: TransitionCount) => `${getStatusName(counter.from)} -> ${getStatusName(counter.to)}`;
 
@@ -70,6 +90,12 @@ const total = computed(() => {
     ],
   };
 });
+
+const filterCounters = (counters: TransitionCount[]) => {
+  return counters
+    .filter((counter: TransitionCount) => (fromStatus.value ? counter.from === fromStatus.value.id : true))
+    .filter((counter: TransitionCount) => (toStatus.value ? counter.to === toStatus.value.id : true));
+};
 
 onMounted(() => {
   statusesLoading.value = true;
@@ -128,3 +154,21 @@ watch(
   { immediate: true },
 );
 </script>
+
+<style lang="scss">
+.transition-count-dashboard {
+  padding: 12px;
+}
+
+.transition-count-dashboard__filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.transition-count-dashboard__title {
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+</style>

@@ -112,7 +112,8 @@ const logOut = (): void => {
   position: fixed;
   height: 100%;
   width: 100%;
-  background-color: $black;
+
+  // background-color: $black;
   opacity: 0.3;
 }
 
@@ -127,7 +128,7 @@ const logOut = (): void => {
   cursor: pointer;
 
   &:hover {
-    background-color: $gray;
+    // background-color: $gray;
   }
 }
 </style>

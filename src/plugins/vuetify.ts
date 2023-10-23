@@ -7,6 +7,9 @@ import 'vuetify/styles';
 const vuetify = createVuetify({
   components,
   directives,
+  theme: {
+    defaultTheme: 'dark',
+  },
   display: {
     mobileBreakpoint: 'lg',
     thresholds: {

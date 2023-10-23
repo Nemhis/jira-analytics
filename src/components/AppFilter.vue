@@ -11,8 +11,8 @@
       label="Project"
       hide-details="auto"
       class="app-filter__input"
+      variant="outlined"
       clearable
-      outlined
       dense
     >
       <template #item="{ props, item }">
@@ -34,9 +34,9 @@
       label="Board"
       hide-details="auto"
       class="app-filter__input"
-      outlined
-      dense
+      variant="outlined"
       clearable
+      dense
     >
       <template #item="{ props, item }">
         <v-list-item v-bind="props">
@@ -57,9 +57,9 @@
       label="Sprint"
       hide-details="auto"
       class="app-filter__input"
+      variant="outlined"
       clearable
       multiple
-      outlined
       dense
     >
       <template #item="{ props, item }">
@@ -81,9 +81,9 @@
       label="Issues"
       hide-details="auto"
       class="app-filter__input"
+      variant="outlined"
       clearable
       multiple
-      outlined
       dense
     >
       <template #item="{ props, item }">
@@ -106,9 +106,9 @@
       label="Implementer"
       hide-details="auto"
       class="app-filter__input"
+      variant="outlined"
       clearable
       multiple
-      outlined
       dense
     >
       <template #item="{ props, item }">
@@ -314,13 +314,11 @@ onMounted(() => {
   margin: 0 10px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 20px;
+  gap: 12px;
 }
 
 .app-filter__input {
   box-sizing: border-box;
   min-width: 350px;
-  padding: 10px;
-  margin: 0 10px;
 }
 </style>
